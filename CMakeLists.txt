@@ -10,7 +10,16 @@ FetchContent_Declare(SFML
     GIT_TAG 2.6.x)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(main src/main.cpp)
+set(CPP src/Action.cpp src/Animation.cpp src/Assets.cpp src/Entity.cpp 
+    src/EntityManager.cpp src/GameEngine.cpp src/main.cpp src/Physics.cpp 
+    src/Scene_InGame.cpp src/Scene_Menu.cpp src/Scene.cpp src/Vec2.cpp)
+
+
+set(H src/Action.h src/Animation.h src/Assets.h src/Entity.h 
+    src/EntityManager.h src/GameEngine.h src/Component.h src/Physics.h 
+    src/Scene_InGame.h src/Scene_Menu.h src/Scene.h src/Vec2.h)
+
+add_executable(main ${CPP} ${H})
 target_link_libraries(main PRIVATE sfml-graphics)
 target_compile_features(main PRIVATE cxx_std_17)
 
