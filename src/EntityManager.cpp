@@ -1,4 +1,6 @@
-/* #include "EntityManager.h"
+#include "EntityManager.h"
+#include<memory>
+#include<algorithm>
 
 EntityManager::EntityManager(){};
 
@@ -34,4 +36,4 @@ EntityVector& EntityManager::getEntities(){
 EntityVector& EntityManager::getEntities(const std::string & tag)
 {
     return entityMap[tag];
-} */
+} 

@@ -1,18 +1,29 @@
 #pragma once
+
 #include "EntityManager.h"
 #include "Action.h"
 
+class GameEngine;
+
+typedef std::map<int, std::string> ActionMap;
+
 class Scene
 {
-private:
-    GameEngine g;
+
+protected:
+
+    GameEngine * g = nullptr;
     EntityManager entities;
     int current_frame;
-    std::map<int,std::string> actionMap;
+    ActionMap actionMap;
     bool paused;
     bool hasEnded;
 
 public:
+
+    Scene();
+    Scene(GameEngine * gameEngine);
+
     virtual void update() = 0;
     virtual void sDoAction(Action action) = 0;
     virtual void sRender() = 0;

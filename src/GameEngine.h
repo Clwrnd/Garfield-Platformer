@@ -1,28 +1,32 @@
 #pragma once
-#include <SFML/Graphics.hpp>
+
 #include "Scene.h"
 #include "Assets.h"
 
+typedef std::map<std::string, std::shared_ptr<Scene>> SceneMap;
+
 class GameEngine
 {
-private:
-    std::map<std::string, Scene> scenes;
-    sf::RenderWindow window;
-    Assets assets;
+protected:
     std::string current_scene;
-    bool running;
+    sf::RenderWindow window;
+    SceneMap scenes;
+    Assets assets;
+ 
+    bool running = true;
 
-    Scene *currentScene();
     void init(const std::string &config);
+    void update();
+    void sUserInput();
+
+    std::shared_ptr<Scene> currentScene();
 
 public:
-    GameEngine(const std::string &config);
-    Assets &getAssets();
-    sf::RenderWindow &window();
-    void update();
+    GameEngine(const std::string &config);  
+    const Assets& getAssets() const;
+    sf::RenderWindow &getWindow();
     void quit();
-    void sUserInput();
     void run();
-    void changeScene(Scene scene);
-    
+    void changeScene(const std::string & sceneName,std::shared_ptr<Scene> scene,bool endCurrentScene = false);
+    bool isRunning();
 };
