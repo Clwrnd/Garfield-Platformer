@@ -11,11 +11,9 @@ GameEngine::GameEngine(const std::string &config)
 
 void GameEngine::init(const std::string &config)
 {
-    changeScene("menu",std::make_shared<Scene_Menu>(this));
-
     window.create(sf::VideoMode({1400,800}),"Assignement 3");
     window.setFramerateLimit(60);
-
+    changeScene("menu",std::make_shared<Scene_Menu>(this));
 }
 
 void GameEngine::changeScene(const std::string & sceneName, std::shared_ptr<Scene> scene,bool endCurrentScene)
@@ -29,6 +27,10 @@ std::shared_ptr<Scene> GameEngine::getCurrent_Scene()
     return scenes[current_scene];
 }
 
+sf::RenderWindow& GameEngine::getWindow()
+{
+    return window;  
+}
 
 bool GameEngine::isRunning()
 {

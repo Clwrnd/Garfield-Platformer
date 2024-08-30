@@ -20,3 +20,8 @@ void Scene::registerAction(int inputKey, const std::string& actionName)
 {
     actionMap[inputKey]= actionName;
 }
+
+void Scene::doAction(const Action & action)
+{
+    sDoAction(action);
+}

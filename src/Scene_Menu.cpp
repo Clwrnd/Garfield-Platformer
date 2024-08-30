@@ -11,13 +11,32 @@ Scene_Menu::Scene_Menu(GameEngine * gameEngine)
 }
 
 void Scene_Menu::init()
-{
+{   
     registerAction(sf::Keyboard::Escape, "QUIT");
+
+    font.loadFromFile("../../fonts/GarfieldSans-Regular.ttf");
+    float i=0;
+    for (std::string  & str : menuStrings)
+    {
+        sf::Text text;  
+        text.setString(str);
+        text.setFont(font);
+        text.setFillColor(sf::Color::Black);
+        text.setCharacterSize(75);
+        text.setPosition({10,200+i});
+        i=i+150;
+        menuTexts.push_back(text);
+    }
 }
 
 void Scene_Menu::sRender() 
 {
-    
+    game_engine->getWindow().clear(sf::Color(255,162,41));
+    for(sf::Text & text : menuTexts)
+    {
+        game_engine->getWindow().draw(text); 
+    }
+    game_engine->getWindow().display();
 }
 
 void Scene_Menu::sDoAction(const Action & action)
@@ -28,10 +47,7 @@ void Scene_Menu::sDoAction(const Action & action)
     }
 }
 
-void Scene_Menu::doAction(const Action & action)
-{
-    sDoAction(action);
-}
+
 
 void Scene_Menu::onEnd()
 {
