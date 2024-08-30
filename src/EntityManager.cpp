@@ -1,8 +1,9 @@
 #include "EntityManager.h"
-#include<memory>
-#include<algorithm>
 
-EntityManager::EntityManager(){};
+#include <memory>
+#include <algorithm>
+
+EntityManager::EntityManager() {};
 
 std::shared_ptr<Entity> EntityManager::addEntity(const std::string &tag)
 {
@@ -20,20 +21,24 @@ void EntityManager::update()
     }
     toAdd.clear();
 
-    auto it = std::remove_if(entities.begin(),entities.end(),[](std::shared_ptr<Entity> e){return ! e->isActive();} );
-    entities.erase(it,entities.end());
-    for (auto & [tag,entityV]:entityMap)
+    auto it = std::remove_if(entities.begin(), entities.end(), [](std::shared_ptr<Entity> e)
+                             { return !e->isActive(); });
+    entities.erase(it, entities.end());
+
+    for (auto &[tag, entityV] : entityMap)
     {
-        auto it = std::remove_if(entityV.begin(),entityV.end(),[](std::shared_ptr<Entity> e){return ! e->isActive();} );    
-        entityV.erase(it,entityV.end());
+        auto it = std::remove_if(entityV.begin(), entityV.end(), [](std::shared_ptr<Entity> e)
+                                 { return !e->isActive(); });
+        entityV.erase(it, entityV.end());
     }
 }
 
-EntityVector& EntityManager::getEntities(){
+EntityVector &EntityManager::getEntities()
+{
     return entities;
 }
 
-EntityVector& EntityManager::getEntities(const std::string & tag)
+EntityVector &EntityManager::getEntities(const std::string &tag)
 {
     return entityMap[tag];
-} 
+}

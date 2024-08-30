@@ -1,8 +1,13 @@
+#include "GameEngine.h"
+
 #include <string>
 
 #include "Scene_Menu.h"
-#include "GameEngine.h"
 
+GameEngine::GameEngine(const std::string &config)
+{
+    init(config);
+}
 
 void GameEngine::init(const std::string &config)
 {
@@ -13,34 +18,33 @@ void GameEngine::init(const std::string &config)
 
 }
 
-bool GameEngine::isRunning()
-{
-    return running && window.isOpen();
-}
-
 void GameEngine::changeScene(const std::string & sceneName, std::shared_ptr<Scene> scene,bool endCurrentScene)
 {
     current_scene= sceneName;
     scenes[sceneName]= scene;
 }
 
-GameEngine::GameEngine(const std::string &config)
+std::shared_ptr<Scene> GameEngine::getCurrent_Scene()
 {
-    init(config);
+    return scenes[current_scene];
 }
 
-void GameEngine::run()
-{   
-    while (isRunning())
-    {
-        sUserInput();
-        update(); 
-    }  
+
+bool GameEngine::isRunning()
+{
+    return running && window.isOpen();
 }
+
+void GameEngine::quit()
+{
+    running = false;
+}
+
 
 void GameEngine::update()
 {
-    scenes[current_scene]->update();
+    sUserInput();
+    getCurrent_Scene()->sRender();
 }
 
 void GameEngine::sUserInput()
@@ -53,6 +57,25 @@ void GameEngine::sUserInput()
         {
             running = false;
         }
+
+        if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased)
+        {
+            if (getCurrent_Scene()->getActionMap().find(event.key.code)==getCurrent_Scene()->getActionMap().end())
+            {continue;}
+
+            const std::string actionType = (event.type ==  sf::Event::KeyPressed) ? "START" : "END";
+
+            getCurrent_Scene()->doAction(Action(getCurrent_Scene()->getActionMap().at(event.key.code),actionType));
+        }
     }
     
+}
+
+
+void GameEngine::run()
+{   
+    while (isRunning())
+    {
+        update(); 
+    }  
 }

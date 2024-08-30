@@ -2,21 +2,20 @@
 
 Action::Action() {};
 
-Action::Action(const std::string & nameVar, const std::string & typeVar)
+Action::Action(const std::string &nameVar, const std::string &typeVar)
     : name(nameVar), type(typeVar)
-{    
+{
 }
 
-const std::string & Action::getName() const
+const std::string &Action::getName() const
 {
     return name;
 }
 
-const std::string & Action::getType() const
+const std::string &Action::getType() const
 {
     return type;
 }
-
 
 std::string Action::toString() const
 {

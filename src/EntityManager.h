@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 #include <map>
+
 #include "Entity.h"
 
 typedef std::vector<std::shared_ptr<Entity>> EntityVector;
@@ -18,8 +19,9 @@ private:
 
 public:
     EntityManager();
-    void update();
+
     std::shared_ptr<Entity> addEntity(const std::string &tag);
     EntityVector &getEntities();
     EntityVector &getEntities(const std::string &tag);
+    void update();
 };
