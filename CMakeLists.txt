@@ -20,7 +20,7 @@ set(H src/Action.h src/Animation.h src/Assets.h src/Entity.h
     src/Scene_InGame.h src/Scene_Menu.h src/Scene.h src/Vec2.h)
 
 add_executable(main ${CPP} ${H})
-target_link_libraries(main PRIVATE sfml-graphics)
+target_link_libraries(main PRIVATE sfml-graphics sfml-audio )
 target_compile_features(main PRIVATE cxx_std_17)
 
 if(WIN32)

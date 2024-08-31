@@ -19,7 +19,7 @@ protected:
     void update();
     void sUserInput();
 
-    std::shared_ptr<Scene> getCurrent_Scene();
+    std::shared_ptr<Scene> getCurrent_Scene();      
 
 public:
     GameEngine(const std::string &config);
@@ -28,5 +28,7 @@ public:
     void quit();
     void run();
     void changeScene(const std::string &sceneName, std::shared_ptr<Scene> scene, bool endCurrentScene = false);
+    void loadAssets(std::string & path);
     bool isRunning();
+
 };

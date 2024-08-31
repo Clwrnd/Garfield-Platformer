@@ -2,6 +2,7 @@
 
 #include <cmath>
 
+Animation::Animation() {};
 
 Animation::Animation(const std::string &nameVar, const sf::Texture &t)
     : Animation(nameVar, t, 1, 0)

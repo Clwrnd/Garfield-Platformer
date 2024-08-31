@@ -14,17 +14,16 @@ void Scene_Menu::init()
 {   
     registerAction(sf::Keyboard::Escape, "QUIT");
 
-    font.loadFromFile("../../fonts/GarfieldSans-Regular.ttf");
     float i=0;
     for (std::string  & str : menuStrings)
     {
         sf::Text text;  
         text.setString(str);
-        text.setFont(font);
+        text.setFont(game_engine->getAssets().getFont("GarfieldFont"));
         text.setFillColor(sf::Color::Black);
         text.setCharacterSize(75);
         text.setPosition({10,200+i});
-        i=i+150;
+        i=i+150;    
         menuTexts.push_back(text);
     }
 }

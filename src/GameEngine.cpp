@@ -13,7 +13,15 @@ void GameEngine::init(const std::string &config)
 {
     window.create(sf::VideoMode({1400,800}),"Assignement 3");
     window.setFramerateLimit(60);
+
+    assets.addFont("GarfieldFont","../../fonts/GarfieldSans-Regular.ttf");
+
     changeScene("menu",std::make_shared<Scene_Menu>(this));
+}
+
+void GameEngine::loadAssets(std::string & path)
+{
+
 }
 
 void GameEngine::changeScene(const std::string & sceneName, std::shared_ptr<Scene> scene,bool endCurrentScene)
@@ -30,6 +38,11 @@ std::shared_ptr<Scene> GameEngine::getCurrent_Scene()
 sf::RenderWindow& GameEngine::getWindow()
 {
     return window;  
+}
+
+const Assets &GameEngine::getAssets() const
+{
+    return assets;
 }
 
 bool GameEngine::isRunning()
