@@ -27,19 +27,19 @@ void Assets::addFont(const std::string & name,const std::string & path)
     a_fonts[name].loadFromFile(path);
 }
 
-sf::Texture & Assets::getTexture(std::string & name)
+const sf::Texture & Assets::getTexture(std::string & name) const
 {
-    return a_textures[name];
+    return a_textures.at(name);
 }
     
-Animation & Assets::getAnimation(std::string & name)
+const Animation & Assets::getAnimation(std::string & name) const
 {
-    return a_animations[name];
+    return a_animations.at(name);
 }
 
-sf::Sound & Assets::getSound(std::string & name)
+const sf::Sound & Assets::getSound(std::string & name) const
 {
-    return a_sounds[name];
+    return a_sounds.at(name);
 }
 
 const sf::Font & Assets::getFont(const std::string & name) const  

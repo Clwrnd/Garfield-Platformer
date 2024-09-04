@@ -1,0 +1,2 @@
+Font GarfieldFont ../../fonts/GarfieldSans-Regular.ttf
+Font PixelFont ../../fonts/SuperPixel-m2L8j.ttf

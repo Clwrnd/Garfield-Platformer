@@ -1,6 +1,10 @@
 #include "GameEngine.h"
 
 #include <string>
+#include <sstream>
+#include <fstream>
+#include <vector>
+#include <iostream>
 
 #include "Scene_Menu.h"
 
@@ -11,23 +15,93 @@ GameEngine::GameEngine(const std::string &config)
 
 void GameEngine::init(const std::string &config)
 {
-    window.create(sf::VideoMode({1400,800}),"Assignement 3");
-    window.setFramerateLimit(60);
-
-    assets.addFont("GarfieldFont","../../fonts/GarfieldSans-Regular.ttf");
-
-    changeScene("menu",std::make_shared<Scene_Menu>(this));
+    readConfigFile(config);
+    changeScene("menu", std::make_shared<Scene_Menu>(this));
 }
 
-void GameEngine::loadAssets(std::string & path)
+void GameEngine::readConfigFile(const std::string &path)
 {
+    std::ifstream configFile;
 
+    configFile.open(path);
+
+    std::string line;
+    std::string param;
+
+    while (std::getline(configFile, line))
+    {
+        std::getline(std::stringstream(line), param, ' ');
+        if (param == "Window")
+        {
+            std::vector<int> winPar;
+            line.erase(0, 7);
+            std::stringstream ssline(line);
+            while (std::getline(ssline, param, ' '))
+            {
+                winPar.push_back(std::stoi(param));
+            }
+
+            if (winPar.at(3))
+            {
+                window.create(sf::VideoMode({(unsigned int)winPar.at(0), (unsigned int)winPar.at(1)}), "Assignement 3", sf::Style::Fullscreen);
+            }
+            else
+            {
+                window.create(sf::VideoMode({(unsigned int)winPar.at(0), (unsigned int)winPar.at(1)}), "Assignement 3");
+            }
+            window.setFramerateLimit(winPar.at(2));
+        }
+        else if (param == "AssetsPath")
+        {
+            line.erase(0, 11);
+            loadAssets(line);
+        }
+        else if (param == "LevelPath")
+        {
+            /* code */
+        }
+    }
+
+    configFile.close();
 }
 
-void GameEngine::changeScene(const std::string & sceneName, std::shared_ptr<Scene> scene,bool endCurrentScene)
+void GameEngine::loadAssets(const std::string &path)
 {
-    current_scene= sceneName;
-    scenes[sceneName]= scene;
+    std::ifstream assetsFile;
+    assetsFile.open(path);
+
+    std::string line;
+    std::string param;
+
+    while (std::getline(assetsFile, line))
+    {
+        std::getline(std::stringstream(line), param, ' ');
+        if (param == "Texture")
+        {
+        }
+        else if (param == "Animation")
+        {
+        }
+        else if (param == "Font")
+        {
+            std::vector<std::string> fontPar;
+            line.erase(0, 5);
+            std::stringstream ssline(line);
+            while (std::getline(ssline, param, ' '))
+            {
+                fontPar.push_back(param);
+            }
+            assets.addFont(fontPar.at(0), fontPar.at(1));
+        }
+    }
+
+    assetsFile.close();
+}
+
+void GameEngine::changeScene(const std::string &sceneName, std::shared_ptr<Scene> scene, bool endCurrentScene)
+{
+    current_scene = sceneName;
+    scenes[sceneName] = scene;
 }
 
 std::shared_ptr<Scene> GameEngine::getCurrent_Scene()
@@ -35,9 +109,9 @@ std::shared_ptr<Scene> GameEngine::getCurrent_Scene()
     return scenes[current_scene];
 }
 
-sf::RenderWindow& GameEngine::getWindow()
+sf::RenderWindow &GameEngine::getWindow()
 {
-    return window;  
+    return window;
 }
 
 const Assets &GameEngine::getAssets() const
@@ -54,7 +128,6 @@ void GameEngine::quit()
 {
     running = false;
 }
-
 
 void GameEngine::update()
 {
@@ -75,22 +148,22 @@ void GameEngine::sUserInput()
 
         if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased)
         {
-            if (getCurrent_Scene()->getActionMap().find(event.key.code)==getCurrent_Scene()->getActionMap().end())
-            {continue;}
+            if (getCurrent_Scene()->getActionMap().find(event.key.code) == getCurrent_Scene()->getActionMap().end())
+            {
+                continue;
+            }
 
-            const std::string actionType = (event.type ==  sf::Event::KeyPressed) ? "START" : "END";
+            const std::string actionType = (event.type == sf::Event::KeyPressed) ? "START" : "END";
 
-            getCurrent_Scene()->doAction(Action(getCurrent_Scene()->getActionMap().at(event.key.code),actionType));
+            getCurrent_Scene()->doAction(Action(getCurrent_Scene()->getActionMap().at(event.key.code), actionType));
         }
     }
-    
 }
 
-
 void GameEngine::run()
-{   
+{
     while (isRunning())
     {
-        update(); 
-    }  
+        update();
+    }
 }

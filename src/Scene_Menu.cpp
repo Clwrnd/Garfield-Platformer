@@ -19,7 +19,7 @@ void Scene_Menu::init()
     {
         sf::Text text;  
         text.setString(str);
-        text.setFont(game_engine->getAssets().getFont("GarfieldFont"));
+        text.setFont(game_engine->getAssets().getFont("PixelFont"));
         text.setFillColor(sf::Color::Black);
         text.setCharacterSize(75);
         text.setPosition({10,200+i});
