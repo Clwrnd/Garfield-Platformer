@@ -78,6 +78,15 @@ void GameEngine::loadAssets(const std::string &path)
         std::getline(std::stringstream(line), param, ' ');
         if (param == "Texture")
         {
+            std::vector<std::string> textPar;
+            line.erase(0, 8);
+            std::stringstream ssline(line);
+            while (std::getline(ssline, param, ' '))
+            {
+                textPar.push_back(param);
+            }
+            assets.addTexture(textPar.at(0), textPar.at(1));
+
         }
         else if (param == "Animation")
         {

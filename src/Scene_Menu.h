@@ -9,6 +9,7 @@ protected:
     std::vector<std::string> menuStrings = {"- LEVEL 1", "- LEVEL 2", "- LEVEL 3", "- LEAVE"};
     std::vector<sf::Text> menuTexts;
     std::vector<std::string> levelPaths;
+    std::shared_ptr<Entity> garAnim;
     sf::Font font;
     size_t selectedMenuIndex = 0;
 

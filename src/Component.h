@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Vec2.h"
+#include "Animation.h"
 
 class Component
 {
@@ -50,6 +51,8 @@ public:
 class CAnimation : public Component
 {
 public:
+    Animation animation;
+
     CAnimation() {}
 };
 

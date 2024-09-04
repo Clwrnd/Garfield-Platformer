@@ -14,6 +14,7 @@ private:
     size_t frame_count;
     size_t current_frame;
     size_t speed;
+    size_t game_frame=0;
 
 public:
     Animation();

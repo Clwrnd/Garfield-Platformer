@@ -27,17 +27,17 @@ void Assets::addFont(const std::string & name,const std::string & path)
     a_fonts[name].loadFromFile(path);
 }
 
-const sf::Texture & Assets::getTexture(std::string & name) const
+const sf::Texture & Assets::getTexture(const std::string & name) const
 {
     return a_textures.at(name);
 }
     
-const Animation & Assets::getAnimation(std::string & name) const
+const Animation & Assets::getAnimation(const std::string & name) const
 {
     return a_animations.at(name);
 }
 
-const sf::Sound & Assets::getSound(std::string & name) const
+const sf::Sound & Assets::getSound(const std::string & name) const
 {
     return a_sounds.at(name);
 }
