@@ -11,7 +11,6 @@ void Assets::addTexture(std::string & name,std::string & path)
 void Assets::addAnimation(std::string & name,Animation & animation)
 {
     a_animations[name] = animation;
-
 }
 
 void Assets::addSound(std::string & name,std::string & path)

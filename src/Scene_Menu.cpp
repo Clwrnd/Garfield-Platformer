@@ -13,23 +13,7 @@ Scene_Menu::Scene_Menu(GameEngine * gameEngine)
 void Scene_Menu::init()
 {   
     registerAction(sf::Keyboard::Escape, "QUIT");
-
-    float i=0;
-    for (std::string  & str : menuStrings)
-    {
-        sf::Text text;  
-        text.setString(str);
-        text.setFont(game_engine->getAssets().getFont("GarfieldFont"));
-        text.setFillColor(sf::Color::Black);
-        text.setCharacterSize(75);
-        text.setPosition({10,200+i});
-        i=i+150;    
-        menuTexts.push_back(text);
-    }
-
-    garAnim = entities.addEntity("gar");
-    garAnim->getComponent<CAnimation>().animation = Animation("garf",game_engine->getAssets().getTexture("testGarT"),2,10);
-    garAnim->addComponent<CTransform>(Vec2{800,600},Vec2{0,0},0);
+    initMenuObject();
 }
 
 void Scene_Menu::sRender() 
@@ -55,7 +39,25 @@ void Scene_Menu::sDoAction(const Action & action)
     }
 }
 
+void Scene_Menu::initMenuObject()
+{
+    float i=0;
+    for (std::string  & str : menuStrings)
+    {
+        sf::Text text;  
+        text.setString(str);
+        text.setFont(game_engine->getAssets().getFont("PublicPixel"));
+        text.setFillColor(sf::Color::Black);
+        text.setCharacterSize(75);
+        text.setPosition({10,200+i});
+        i=i+150;    
+        menuTexts.push_back(text);
+    }
 
+    garAnim = entities.addEntity("gar");
+    garAnim->getComponent<CAnimation>().animation = Animation("garf",game_engine->getAssets().getTexture("menuGarTex"),4,13);
+    garAnim->addComponent<CTransform>(Vec2{800,600},Vec2{0,0},0);
+}
 
 void Scene_Menu::onEnd()
 {

@@ -17,6 +17,7 @@ protected:
     void update();
     void onEnd();
     void sDoAction(const Action & action);
+    void initMenuObject();
 
 public:    
     Scene_Menu(GameEngine * game_engine = nullptr);

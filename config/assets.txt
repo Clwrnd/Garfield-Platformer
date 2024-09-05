@@ -1,3 +1,4 @@
-Font GarfieldFont ../../fonts/GarfieldSans-Regular.ttf
-Font PixelFont ../../fonts/SuperPixel-m2L8j.ttf
-Texture testGarT ../../images/testAnim.png
+Font GarfieldSans ../../fonts/GarfieldSans-Regular.ttf
+Font PublicPixel ../../fonts/PublicPixel-rv0pA.ttf
+Texture menuGarTex ../../images/testAnim.png
+Animation menuGarAn 4 13 

@@ -72,35 +72,31 @@ void GameEngine::loadAssets(const std::string &path)
 
     std::string line;
     std::string param;
+    std::string typeS;
 
     while (std::getline(assetsFile, line))
     {
-        std::getline(std::stringstream(line), param, ' ');
-        if (param == "Texture")
-        {
-            std::vector<std::string> textPar;
-            line.erase(0, 8);
-            std::stringstream ssline(line);
-            while (std::getline(ssline, param, ' '))
-            {
-                textPar.push_back(param);
-            }
-            assets.addTexture(textPar.at(0), textPar.at(1));
+        std::getline(std::stringstream(line), typeS, ' ');
 
-        }
-        else if (param == "Animation")
+        std::vector<std::string> paramVec;
+        line.erase(0, 8);
+        std::stringstream ssline(line);
+        while (std::getline(ssline, param, ' '))
         {
+            paramVec.push_back(param);
         }
-        else if (param == "Font")
+
+        if (typeS == "Texture")
         {
-            std::vector<std::string> fontPar;
-            line.erase(0, 5);
-            std::stringstream ssline(line);
-            while (std::getline(ssline, param, ' '))
-            {
-                fontPar.push_back(param);
-            }
-            assets.addFont(fontPar.at(0), fontPar.at(1));
+            assets.addTexture(paramVec.at(0), paramVec.at(1));
+        }
+        else if (typeS == "Animation")
+        {
+            assets.addAnimation(Animation(paramVec.at(0),paramVec.at(2)));
+        }
+        else if (typeS == "Font")
+        {
+            assets.addFont(paramVec.at(0), paramVec.at(1));
         }
     }
 
