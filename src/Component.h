@@ -54,6 +54,10 @@ public:
     Animation animation;
 
     CAnimation() {}
+    CAnimation(Animation animationVar)
+        : animation(animationVar)
+    {
+    }
 };
 
 class CGravity : public Component

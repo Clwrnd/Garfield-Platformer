@@ -40,7 +40,11 @@ bool Animation::hasEndend() const
 void Animation::update()
 {
     game_frame ++;
-    current_frame = (game_frame/speed) % frame_count;
+
+    if(speed !=0)
+    {
+        current_frame = (game_frame/speed) % frame_count;
+    }
 
     sprite.setTextureRect(sf::IntRect(std::floor(current_frame) * size.x, 0, size.x, size.y));
 }

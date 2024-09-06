@@ -10,7 +10,7 @@ private:
 
 public:
     Action();
-    Action(const std::string &nameVar, const std::string &typeVar);
+    Action (const std::string &nameVar, const std::string &typeVar);
 
     const std::string &getName() const;
     const std::string &getType() const;

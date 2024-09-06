@@ -17,7 +17,7 @@ protected:
     bool paused = false;
     bool hasEnded = false;
 
-    virtual void onEnd() = 0;
+    virtual void onEnd(size_t selectedItem) = 0;
     void setPaused(bool paused);
 
 public:

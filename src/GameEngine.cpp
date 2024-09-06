@@ -73,13 +73,13 @@ void GameEngine::loadAssets(const std::string &path)
     std::string line;
     std::string param;
     std::string typeS;
+    std::vector<std::string> paramVec;
 
     while (std::getline(assetsFile, line))
     {
         std::getline(std::stringstream(line), typeS, ' ');
+        paramVec.clear();
 
-        std::vector<std::string> paramVec;
-        line.erase(0, 8);
         std::stringstream ssline(line);
         while (std::getline(ssline, param, ' '))
         {
@@ -88,15 +88,16 @@ void GameEngine::loadAssets(const std::string &path)
 
         if (typeS == "Texture")
         {
-            assets.addTexture(paramVec.at(0), paramVec.at(1));
+            assets.addTexture(paramVec.at(1), paramVec.at(2));
         }
         else if (typeS == "Animation")
         {
-            assets.addAnimation(Animation(paramVec.at(0),paramVec.at(2)));
+            Animation animation = Animation(paramVec.at(1), assets.getTexture(paramVec.at(2)), std::stoi(paramVec.at(3)), std::stoi(paramVec.at(4)));
+            assets.addAnimation(paramVec.at(1), animation);
         }
         else if (typeS == "Font")
         {
-            assets.addFont(paramVec.at(0), paramVec.at(1));
+            assets.addFont(paramVec.at(1), paramVec.at(2));
         }
     }
 
@@ -137,7 +138,7 @@ void GameEngine::quit()
 void GameEngine::update()
 {
     sUserInput();
-    getCurrent_Scene()->sRender();
+    getCurrent_Scene()->update();
 }
 
 void GameEngine::sUserInput()

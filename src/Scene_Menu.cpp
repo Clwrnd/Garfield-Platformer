@@ -13,32 +13,48 @@ Scene_Menu::Scene_Menu(GameEngine * gameEngine)
 void Scene_Menu::init()
 {   
     registerAction(sf::Keyboard::Escape, "QUIT");
+    registerAction(sf::Keyboard::Z, "UP");
+    registerAction(sf::Keyboard::S, "DOWN");
+    registerAction(sf::Keyboard::Enter, "ENTER");
+
     initMenuObject();
 }
 
 void Scene_Menu::sRender() 
 {
     game_engine->getWindow().clear(sf::Color(255,162,41));
+
     for(sf::Text & text : menuTexts)
     {
         game_engine->getWindow().draw(text); 
     }
-    garAnim->getComponent<CAnimation>().animation.update();
-    garAnim->getComponent<CAnimation>().animation.getSprite().setPosition(garAnim->getComponent<CTransform>().pos.x,garAnim->getComponent<CTransform>().pos.y);
-    game_engine->getWindow().draw(garAnim->getComponent<CAnimation>().animation.getSprite()); 
-
+    game_engine->getWindow().draw(staticGar->getComponent<CAnimation>().animation.getSprite()); 
+    game_engine->getWindow().draw(anGar->getComponent<CAnimation>().animation.getSprite()); 
 
     game_engine->getWindow().display();
 }
 
 void Scene_Menu::sDoAction(const Action & action)
 {
-    if(action.getName()=="QUIT")
+    if (action.getType() == "START")
     {
-        onEnd();
-    }
-}
+        if (action.getName() == "QUIT")
+        {
+            game_engine->quit();
+        }
+        else if (action.getName() == "UP" || action.getName() == "DOWN")
+        {
+            moveSelectedItems(action.getName());
+        }
+        else if ( action.getName() == "ENTER" )
+        {
+            onEnd(selectedMenuIndex);
+        }
+        
 
+        }
+    }
+    
 void Scene_Menu::initMenuObject()
 {
     float i=0;
@@ -48,25 +64,69 @@ void Scene_Menu::initMenuObject()
         text.setString(str);
         text.setFont(game_engine->getAssets().getFont("PublicPixel"));
         text.setFillColor(sf::Color::Black);
-        text.setCharacterSize(75);
+        text.setCharacterSize(40);
         text.setPosition({10,200+i});
-        i=i+150;    
+        i=i+100;    
         menuTexts.push_back(text);
     }
+    menuTexts.at(0).setFillColor(sf::Color::White);
 
-    garAnim = entities.addEntity("gar");
-    garAnim->getComponent<CAnimation>().animation = Animation("garf",game_engine->getAssets().getTexture("menuGarTex"),4,13);
-    garAnim->addComponent<CTransform>(Vec2{800,600},Vec2{0,0},0);
+        sf::Text text;  
+        text.setString(title);
+        text.setFont(game_engine->getAssets().getFont("GarfieldSans"));
+        text.setFillColor(sf::Color::Black);
+        text.setCharacterSize(100);
+        text.setPosition({20,10});
+        menuTexts.push_back(text);
+
+    staticGar = entities.addEntity("staticGarMenu");
+    staticGar->addComponent<CAnimation>(game_engine->getAssets().getAnimation("staticGarMenuAn"));
+    staticGar->addComponent<CTransform>(Vec2{1000,510},Vec2{0,0},0);
+
+    anGar = entities.addEntity("anGarMenu");
+    anGar->addComponent<CAnimation>(game_engine->getAssets().getAnimation("menuGarAn"));
+    anGar->addComponent<CTransform>(Vec2{menuTexts.at(selectedMenuIndex).getGlobalBounds().getPosition().x+menuTexts.at(selectedMenuIndex).getGlobalBounds().width + 50
+    ,menuTexts.at(selectedMenuIndex).getGlobalBounds().getPosition().y+menuTexts.at(selectedMenuIndex).getGlobalBounds().height/2},Vec2{0,0},0);
 }
 
-void Scene_Menu::onEnd()
+void Scene_Menu::sAnimation()
 {
-    game_engine->quit();
+    staticGar->getComponent<CAnimation>().animation.getSprite().setPosition(staticGar->getComponent<CTransform>().pos.x,staticGar->getComponent<CTransform>().pos.y); 
+
+    anGar->getComponent<CAnimation>().animation.update();
+    anGar->getComponent<CAnimation>().animation.getSprite().setPosition(anGar->getComponent<CTransform>().pos.x,anGar->getComponent<CTransform>().pos.y); 
+}
+
+void Scene_Menu::moveSelectedItems(const std::string & direction)
+{
+    size_t t = (direction == "UP") ? -1 : 1;
+
+    menuTexts.at(selectedMenuIndex).setFillColor(sf::Color::Black);
+    selectedMenuIndex = (selectedMenuIndex + t) % 4;
+    menuTexts.at(selectedMenuIndex).setFillColor(sf::Color::White);
+
+    anGar->getComponent<CTransform>().pos = Vec2{menuTexts.at(selectedMenuIndex).getGlobalBounds().getPosition().x+menuTexts.at(selectedMenuIndex).getGlobalBounds().width + 50
+    ,menuTexts.at(selectedMenuIndex).getGlobalBounds().getPosition().y+menuTexts.at(selectedMenuIndex).getGlobalBounds().height/2};
+    
+}
+
+void Scene_Menu::onEnd(size_t selectedItem)
+{
+    if(selectedItem == 3)
+    {
+        game_engine->quit();
+    }
+    else
+    {
+        
+    } 
+    
 }
 
 void Scene_Menu::update()
 {  
     entities.update();
+    sAnimation();
     sRender();
 }
 

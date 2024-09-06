@@ -1,4 +1,8 @@
 Font GarfieldSans ../../fonts/GarfieldSans-Regular.ttf
 Font PublicPixel ../../fonts/PublicPixel-rv0pA.ttf
-Texture menuGarTex ../../images/testAnim.png
-Animation menuGarAn 4 13 
+Texture menuGarTex ../../images/inMenu.png
+Texture staticGarMenu ../../images/garfieldStaticMenu.png
+Texture goOutMenuGar ../../images/goOutMenuGar.png
+Animation staticGarMenuAn staticGarMenu 1 0
+Animation menuGarAn menuGarTex 2 30
+Animation goOutMenuAn goOutMenuGar 2 30
