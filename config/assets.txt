@@ -1,5 +1,6 @@
 Font GarfieldSans ../../fonts/GarfieldSans-Regular.ttf
 Font PublicPixel ../../fonts/PublicPixel-rv0pA.ttf
+Sound MenuChanging ../../sound/menuSel.wav
 Texture menuGarTex ../../images/inMenu.png
 Texture staticGarMenu ../../images/garfieldStaticMenu.png
 Texture goOutMenuGar ../../images/goOutMenuGar.png

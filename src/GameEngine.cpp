@@ -105,6 +105,10 @@ void GameEngine::loadAssets(const std::string &path)
         {
             assets.addFont(paramVec.at(1), paramVec.at(2));
         }
+        else if(typeS == "Sound")
+        {
+            assets.addSound(paramVec.at(1), paramVec.at(2));
+        }
     }
 
     assetsFile.close();

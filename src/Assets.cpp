@@ -15,7 +15,6 @@ void Assets::addAnimation(std::string &name, Animation &animation)
 
 void Assets::addSound(std::string &name, std::string &path)
 {
-    sf::SoundBuffer sound_buffer;
     sound_buffer.loadFromFile(path);
     a_sounds[name] = sf::Sound(sound_buffer);
 }

@@ -85,7 +85,10 @@ void Scene_Menu::sDoAction(const Action &action)
         }
         else if (action.getName() == "UP" || action.getName() == "DOWN")
         {
-            moveSelectedItems(action.getName());
+            moveSelectedItems(action.getName());          
+            sf::Sound s = game_engine->getAssets().getSound("MenuChanging");
+            s.play();
+            while (s.getStatus()==sf::Sound::Status::Playing);
         }
         else if (action.getName() == "ENTER")
         {

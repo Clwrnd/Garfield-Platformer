@@ -12,6 +12,7 @@ private:
     std::map<std::string, sf::Texture> a_textures;
     std::map<std::string, Animation> a_animations;
     std::map<std::string, sf::Sound> a_sounds;
+    sf::SoundBuffer sound_buffer;
 
 public:
     Assets();
