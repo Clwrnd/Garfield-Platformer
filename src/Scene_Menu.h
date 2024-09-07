@@ -7,6 +7,7 @@ class Scene_Menu: public Scene
 protected:
     std::string title = "GARFIELD Platformer";
     std::vector<std::string> menuStrings = {"-LEVEL 1", "-LEVEL 2", "-LEVEL 3", "LEAVE"};
+    std::string help = "UP:Z  DOWN:S  GO:ENTER";
     std::vector<sf::Text> menuTexts;
     std::vector<std::string> levelPaths;
     std::shared_ptr<Entity> staticGar;

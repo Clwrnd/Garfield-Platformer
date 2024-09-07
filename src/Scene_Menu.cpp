@@ -79,6 +79,14 @@ void Scene_Menu::initMenuObject()
         text.setPosition({20,10});
         menuTexts.push_back(text);
 
+        sf::Text text2;  
+        text2.setString(help);
+        text2.setFont(game_engine->getAssets().getFont("PublicPixel"));
+        text2.setFillColor(sf::Color::Black);
+        text2.setCharacterSize(20);
+        text2.setPosition({40,730});
+        menuTexts.push_back(text2);
+
     staticGar = entities.addEntity("staticGarMenu");
     staticGar->addComponent<CAnimation>(game_engine->getAssets().getAnimation("staticGarMenuAn"));
     staticGar->addComponent<CTransform>(Vec2{1000,510},Vec2{0,0},0);
