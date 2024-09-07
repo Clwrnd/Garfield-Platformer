@@ -17,33 +17,33 @@ Animation::Animation(const std::string &nameVar, const sf::Texture &t, size_t fr
     sprite.setTextureRect(sf::IntRect(std::floor(current_frame) * size.x, 0, size.x, size.y));
 }
 
-const std::string & Animation::getName()
+const std::string &Animation::getName()
 {
     return name;
 }
 
-const Vec2 & Animation::getSize() const
+const Vec2 &Animation::getSize() const
 {
     return size;
 }
 
-sf::Sprite & Animation::getSprite()
+sf::Sprite &Animation::getSprite()
 {
     return sprite;
 }
 
-bool Animation::hasEndend() const 
+bool Animation::hasEndend() const
 {
     return frame_count == current_frame;
 }
 
 void Animation::update()
 {
-    game_frame ++;
+    relativGame_frame++;
 
-    if(speed !=0)
+    if (speed != 0)
     {
-        current_frame = (game_frame/speed) % frame_count;
+        current_frame = (relativGame_frame / speed) % frame_count;
     }
 
     sprite.setTextureRect(sf::IntRect(std::floor(current_frame) * size.x, 0, size.x, size.y));

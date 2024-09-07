@@ -1,3 +1,5 @@
 Window 1480 820 60 0
 AssetsPath ../../config/assets.txt 
-
+LevelPath caqa
+LevelPath pioxx
+LevelPath 786

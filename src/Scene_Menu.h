@@ -2,7 +2,7 @@
 #include "Scene.h"
 #include <SFML/Graphics.hpp>
 
-class Scene_Menu: public Scene
+class Scene_Menu : public Scene
 {
 protected:
     std::string title = "GARFIELD Platformer";
@@ -16,15 +16,15 @@ protected:
     size_t selectedMenuIndex = 0;
 
     void init();
-    void update();
-    void onEnd(size_t selectedItem);
-    void sDoAction(const Action & action);
     void initMenuObject();
+    void update();
+    void moveSelectedItems(const std::string &direction);
+    void onEnd(size_t selectedItem);
+    void sDoAction(const Action &action);
     void sAnimation();
-    void moveSelectedItems(const std::string & direction);
-
-public:    
-    Scene_Menu(GameEngine * game_engine = nullptr);
+    
+public:
+    Scene_Menu(std::vector<std::string> levPaths, GameEngine *game_engine = nullptr);
 
     void sRender();
 };

@@ -15,12 +15,17 @@ GameEngine::GameEngine(const std::string &config)
 
 void GameEngine::init(const std::string &config)
 {
-    readConfigFile(config);
-    changeScene("menu", std::make_shared<Scene_Menu>(this));
+    // read all windows parameters and assets and levels files (not a very good idea
+    // to mix a void and a return but it work and is coherent with the architecture )
+    std::vector<std::string> levelsPaths = readConfigFile(config);
+
+    changeScene("menu", std::make_shared<Scene_Menu>(levelsPaths, this));
 }
 
-void GameEngine::readConfigFile(const std::string &path)
+const std::vector<std::string> GameEngine::readConfigFile(const std::string &path)
 {
+    std::vector<std::string> levelsPath;
+
     std::ifstream configFile;
 
     configFile.open(path);
@@ -58,11 +63,12 @@ void GameEngine::readConfigFile(const std::string &path)
         }
         else if (param == "LevelPath")
         {
-            /* code */
+            line.erase(0, 10);
+            levelsPath.push_back(line);
         }
     }
-
     configFile.close();
+    return levelsPath;
 }
 
 void GameEngine::loadAssets(const std::string &path)

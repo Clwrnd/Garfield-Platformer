@@ -6,8 +6,8 @@ const std::string &Entity::getTag() const
 }
 
 Entity::Entity(const size_t id_in, const std::string &tag_in)
-    : id(id_in), tag(tag_in), components(ComponentTuple(CTransform(), CLifespan(), 
-    CInput(), CBoundingBox(), CAnimation(), CGravity(), CState()))
+    : id(id_in), tag(tag_in), components(ComponentTuple(CTransform(), CLifespan(),
+                                                        CInput(), CBoundingBox(), CAnimation(), CGravity(), CState()))
 {
 }
 
