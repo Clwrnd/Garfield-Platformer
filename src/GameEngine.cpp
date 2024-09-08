@@ -1,10 +1,7 @@
 #include "GameEngine.h"
 
-#include <string>
 #include <sstream>
 #include <fstream>
-#include <vector>
-#include <iostream>
 
 #include "Scene_Menu.h"
 
@@ -116,6 +113,11 @@ void GameEngine::loadAssets(const std::string &path)
 
 void GameEngine::changeScene(const std::string &sceneName, std::shared_ptr<Scene> scene, bool endCurrentScene)
 {
+    if(endCurrentScene)
+    {
+        scenes.erase(current_scene);
+    }
+
     current_scene = sceneName;
     scenes[sceneName] = scene;
 }

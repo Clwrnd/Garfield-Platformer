@@ -1,8 +1,12 @@
 #include "Scene_Menu.h"
 
+#include "Scene_InGame.h"
+#include "GameEngine.h"
+
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "GameEngine.h"
+
+
 
 Scene_Menu::Scene_Menu(std::vector<std::string> levPaths, GameEngine *gameEngine)
     : Scene(gameEngine), levelPaths(levPaths)
@@ -98,7 +102,7 @@ void Scene_Menu::sDoAction(const Action &action)
         }
         else if (action.getName() == "ENTER")
         {
-            onEnd(selectedMenuIndex);
+            onEnd();
         }
     }
 }
@@ -122,9 +126,9 @@ void Scene_Menu::moveSelectedItems(const std::string &direction)
     anGar->getComponent<CTransform>().pos = Vec2{menuTexts.at(selectedMenuIndex).getGlobalBounds().getPosition().x + menuTexts.at(selectedMenuIndex).getGlobalBounds().width + 50, menuTexts.at(selectedMenuIndex).getGlobalBounds().getPosition().y + menuTexts.at(selectedMenuIndex).getGlobalBounds().height / 2};
 }
 
-void Scene_Menu::onEnd(size_t selectedItem)
+void Scene_Menu::onEnd()
 {
-    if (selectedItem == 3)
+    if (selectedMenuIndex == 3)
     {
         game_engine->quit();
     }
@@ -134,7 +138,7 @@ void Scene_Menu::onEnd(size_t selectedItem)
             s.play();
             while (s.getStatus() == sf::Sound::Status::Playing)
                 ;
-        std::cout << levelPaths.at(selectedItem);
+        game_engine->changeScene("gameplay",std::make_shared<Scene_InGame>(levelPaths.at(selectedMenuIndex),game_engine));
     }
 }
 

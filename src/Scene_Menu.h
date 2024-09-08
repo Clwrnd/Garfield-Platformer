@@ -22,7 +22,7 @@ protected:
     void initMenuObject();
     void update();
     void moveSelectedItems(const std::string &direction);
-    void onEnd(size_t selectedItem);
+    void onEnd();
     void sDoAction(const Action &action);
     void sAnimation();
     
