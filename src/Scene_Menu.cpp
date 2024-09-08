@@ -59,6 +59,11 @@ void Scene_Menu::initMenuObject()
     anGar = entities.addEntity("anGarMenu");
     anGar->addComponent<CAnimation>(game_engine->getAssets().getAnimation("menuGarAn"));
     anGar->addComponent<CTransform>(Vec2{menuTexts.at(selectedMenuIndex).getGlobalBounds().getPosition().x + menuTexts.at(selectedMenuIndex).getGlobalBounds().width + 50, menuTexts.at(selectedMenuIndex).getGlobalBounds().getPosition().y + menuTexts.at(selectedMenuIndex).getGlobalBounds().height / 2}, Vec2{0, 0}, 0);
+
+    ambiantSound.setBuffer(game_engine->getAssets().getSoundBuffer("ambientSound"));
+    ambiantSound.setLoop(true);
+    ambiantSound.setVolume(20);
+    ambiantSound.play();
 }
 
 void Scene_Menu::sRender()
@@ -85,10 +90,11 @@ void Scene_Menu::sDoAction(const Action &action)
         }
         else if (action.getName() == "UP" || action.getName() == "DOWN")
         {
-            moveSelectedItems(action.getName());          
-            sf::Sound s = game_engine->getAssets().getSound("MenuChanging");
+            moveSelectedItems(action.getName());
+            sf::Sound s(game_engine->getAssets().getSoundBuffer("MenuChanging"));
             s.play();
-            while (s.getStatus()==sf::Sound::Status::Playing);
+            while (s.getStatus() == sf::Sound::Status::Playing)
+                ;
         }
         else if (action.getName() == "ENTER")
         {
@@ -124,6 +130,10 @@ void Scene_Menu::onEnd(size_t selectedItem)
     }
     else
     {
+        sf::Sound s(game_engine->getAssets().getSoundBuffer("coolSel"));
+            s.play();
+            while (s.getStatus() == sf::Sound::Status::Playing)
+                ;
         std::cout << levelPaths.at(selectedItem);
     }
 }

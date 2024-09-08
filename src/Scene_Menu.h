@@ -1,6 +1,8 @@
 #pragma once
 #include "Scene.h"
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+
 
 class Scene_Menu : public Scene
 {
@@ -13,6 +15,7 @@ protected:
     std::shared_ptr<Entity> staticGar;
     std::shared_ptr<Entity> anGar;
     sf::Font font;
+    sf::Sound ambiantSound;
     size_t selectedMenuIndex = 0;
 
     void init();

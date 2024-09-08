@@ -13,10 +13,10 @@ void Assets::addAnimation(std::string &name, Animation &animation)
     a_animations[name] = animation;
 }
 
-void Assets::addSound(std::string &name, std::string &path)
-{
-    sound_buffer.loadFromFile(path);
-    a_sounds[name] = sf::Sound(sound_buffer);
+void Assets::addSoundBuffer(std::string &name, std::string &path)
+{ 
+    a_soundsBuffer[name] = sf::SoundBuffer();
+    a_soundsBuffer[name].loadFromFile(path);
 }
 
 void Assets::addFont(const std::string &name, const std::string &path)
@@ -35,9 +35,9 @@ const Animation &Assets::getAnimation(const std::string &name) const
     return a_animations.at(name);
 }
 
-const sf::Sound &Assets::getSound(const std::string &name) const
+const sf::SoundBuffer &Assets::getSoundBuffer(const std::string &name) const
 {
-    return a_sounds.at(name);
+    return a_soundsBuffer.at(name);
 }
 
 const sf::Font &Assets::getFont(const std::string &name) const

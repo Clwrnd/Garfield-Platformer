@@ -107,7 +107,7 @@ void GameEngine::loadAssets(const std::string &path)
         }
         else if(typeS == "Sound")
         {
-            assets.addSound(paramVec.at(1), paramVec.at(2));
+            assets.addSoundBuffer(paramVec.at(1), paramVec.at(2));
         }
     }
 
