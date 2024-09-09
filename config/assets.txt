@@ -8,3 +8,4 @@ Texture staticGarMenu ../../images/garfieldStaticMenu.png
 Animation staticGarMenuAn staticGarMenu 1 0
 Animation menuGarAn menuGarTex 2 30
 
+
