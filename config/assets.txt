@@ -1,5 +1,6 @@
 Font GarfieldSans ../../fonts/GarfieldSans-Regular.ttf
 Font PublicPixel ../../fonts/PublicPixel-rv0pA.ttf
+Font Arial ../../fonts/Arialn.ttf
 Sound coolSel ../../sound/cool.mp3
 Sound MenuChanging ../../sound/menuSel.wav
 Sound ambientSound ../../sound/iFeelGood.wav

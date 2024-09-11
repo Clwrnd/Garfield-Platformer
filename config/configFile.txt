@@ -1,4 +1,4 @@
-Window 1472 820 60 0
+Window 1472 832 60 0
 AssetsPath ../../config/assets.txt 
 LevelPath caqa
 LevelPath pioxx
