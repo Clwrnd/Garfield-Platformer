@@ -15,7 +15,7 @@ protected:
     std::string levelPath;
     PlayerConfig plConfig;
     bool drawTextures = true;
-    bool drawGrid = true;
+    bool drawGrid = false;
     bool drawBoundingBox =false;
     const Vec2 gridSize = Vec2 {64,64};
     sf::Text griTtext ;

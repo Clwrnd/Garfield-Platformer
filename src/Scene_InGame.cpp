@@ -14,8 +14,9 @@ Scene_InGame::Scene_InGame(const std::string &levelPathVar, GameEngine *gameEngi
 
 void Scene_InGame::init()
 {
-    registerAction(sf::Keyboard::Q,"LEFT");
+    registerAction(sf::Keyboard::Q ,"LEFT");
     registerAction(sf::Keyboard::D,"RIGHT");
+    registerAction(sf::Keyboard::G, "DSPGRID");
 
 
     griTtext.setFont(game_engine->getAssets().getFont("Arial"));
@@ -36,12 +37,17 @@ void Scene_InGame::sDoAction(const Action &action)
         {
             t=t-20;
             std::cout<<"Q";
-        }
-        if(action.getName() == "RIGHT" )
+        } 
+        else if (action.getName() == "RIGHT")
         {
             t=t+20;
             std::cout<<"D";
+        } 
+        else if (action.getName() == "DSPGRID")
+        {
+            drawGrid = !drawGrid;
         }
+
     }
 }
 

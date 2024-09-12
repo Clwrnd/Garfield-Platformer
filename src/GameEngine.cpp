@@ -166,14 +166,14 @@ void GameEngine::sUserInput()
 
         if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased)
         {
-            if (getCurrent_Scene()->getActionMap().find(event.key.code) == getCurrent_Scene()->getActionMap().end())
+            if (getCurrent_Scene()->getActionMap().find(event.key.scancode) == getCurrent_Scene()->getActionMap().end())
             {
                 continue;
             }
 
             const std::string actionType = (event.type == sf::Event::KeyPressed) ? "START" : "END";
 
-            getCurrent_Scene()->doAction(Action(getCurrent_Scene()->getActionMap().at(event.key.code), actionType));
+            getCurrent_Scene()->doAction(Action(getCurrent_Scene()->getActionMap().at(event.key.scancode), actionType));
         }
     }
 }

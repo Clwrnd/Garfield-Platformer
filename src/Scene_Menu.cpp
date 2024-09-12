@@ -16,10 +16,10 @@ Scene_Menu::Scene_Menu(std::vector<std::string> levPaths, GameEngine *gameEngine
 
 void Scene_Menu::init()
 {
-    registerAction(sf::Keyboard::Escape, "QUIT");
-    registerAction(sf::Keyboard::Z, "UP");
-    registerAction(sf::Keyboard::S, "DOWN");
-    registerAction(sf::Keyboard::Enter, "ENTER");
+    registerAction(sf::Keyboard::Scan::Scancode::Escape, "QUIT");
+    registerAction(sf::Keyboard::Scan::Scancode::W, "UP");
+    registerAction(sf::Keyboard::Scan::Scancode::S, "DOWN");
+    registerAction(sf::Keyboard::Scan::Scancode::Enter, "ENTER");
 
     initMenuObject();
 }
