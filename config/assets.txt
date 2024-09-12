@@ -6,7 +6,12 @@ Sound MenuChanging ../../sound/menuSel.wav
 Sound ambientSound ../../sound/iFeelGood.wav
 Texture menuGarTex ../../images/inMenu.png
 Texture staticGarMenu ../../images/garfieldStaticMenu.png
+Texture floor64 ../../images/floorBlue64.png
+Texture wall64 ../../images/wallPurple64.png
 Animation staticGarMenuAn staticGarMenu 1 0
 Animation menuGarAn menuGarTex 2 30
+Animation Wall wall64 1 0
+Animation Floor floor64 1 0
+
 
 

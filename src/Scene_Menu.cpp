@@ -53,7 +53,7 @@ void Scene_Menu::initMenuObject()
     text2.setFont(game_engine->getAssets().getFont("PublicPixel"));
     text2.setFillColor(sf::Color::Black);
     text2.setCharacterSize(20);
-    text2.setPosition({40, 730});
+    text2.setPosition({40, 770});
     menuTexts.push_back(text2);
 
     staticGar = entities.addEntity("staticGarMenu");

@@ -1,5 +1,5 @@
 Window 1472 832 60 0
 AssetsPath ../../config/assets.txt 
-LevelPath caqa
+LevelPath ../../levelFiles/level_1.txt
 LevelPath pioxx
 LevelPath 786

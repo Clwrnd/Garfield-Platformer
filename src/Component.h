@@ -17,6 +17,10 @@ public:
     float ang = 0;
 
     CTransform() {};
+    CTransform(const Vec2 &posVar)
+        : pos(posVar)
+    {
+    }
     CTransform(const Vec2 &posVar, const Vec2 &speedVar, float angVar)
         : pos(posVar), speed(speedVar), ang(angVar)
     {
@@ -45,7 +49,13 @@ public:
 class CBoundingBox : public Component
 {
 public:
+    float widht;
+    float height;
     CBoundingBox() {}
+    CBoundingBox(float w, float h)
+        : widht(w), height(h)
+    {
+    }
 };
 
 class CAnimation : public Component

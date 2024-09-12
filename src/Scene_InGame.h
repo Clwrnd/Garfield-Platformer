@@ -1,14 +1,13 @@
 #pragma once
 #include "Scene.h"
 
-class Scene_InGame:  public Scene
+class Scene_InGame : public Scene
 {
     struct PlayerConfig
     {
-        float X,Y,CX,CY,SPEED,MAXSPEED,JUMP,GRAVITY;
+        float X, Y, CX, CY, SPEED, MAXSPEED, JUMP, GRAVITY;
         std::string WEAPON;
     };
-    
 
 protected:
     std::shared_ptr<Entity> player;
@@ -16,22 +15,22 @@ protected:
     PlayerConfig plConfig;
     bool drawTextures = true;
     bool drawGrid = false;
-    bool drawBoundingBox =false;
-    const Vec2 gridSize = Vec2 {64,64};
-    sf::Text griTtext ;
-    float t=500;
+    bool drawBoundingBox = false;
+    const Vec2 gridSize = Vec2{64, 64};
+    sf::Text griTtext;
+    float t = 500;
 
     void init();
 
-    void loadLevel(const std::string & filename);
+    void loadLevel(const std::string &filename);
     void update();
     void sDoAction(const Action &action);
+    Vec2 gridToPixel(Vec2 &gPos, std::shared_ptr<Entity> e);
 
     void onEnd();
 
 public:
-    Scene_InGame(const std::string & levelPathVar,GameEngine * game_engine = nullptr) ;
-    
-    void sRender();
+    Scene_InGame(const std::string &levelPathVar, GameEngine *game_engine = nullptr);
 
+    void sRender();
 };
