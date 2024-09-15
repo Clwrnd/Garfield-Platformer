@@ -49,12 +49,15 @@ public:
 class CBoundingBox : public Component
 {
 public:
-    float widht;
-    float height;
+    sf::RectangleShape cb;
     CBoundingBox() {}
     CBoundingBox(float w, float h)
-        : widht(w), height(h)
+        : cb(sf::Vector2(w, h))
     {
+        cb.setOutlineThickness(1);
+        cb.setOutlineColor(sf::Color::Black);
+        cb.setFillColor(sf::Color(255, 255, 255, 0));
+        cb.setOrigin(w / 2, h / 2);
     }
 };
 

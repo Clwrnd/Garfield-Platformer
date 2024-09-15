@@ -19,6 +19,8 @@ void Scene_InGame::init()
     registerAction(sf::Keyboard::Scan::Scancode::A, "LEFT");
     registerAction(sf::Keyboard::Scan::Scancode::D, "RIGHT");
     registerAction(sf::Keyboard::Scan::Scancode::G, "DSPGRID");
+    registerAction(sf::Keyboard::Scan::Scancode::C, "DSPCB");
+    registerAction(sf::Keyboard::Scan::Scancode::T, "DSPTEXT");
 
     griTtext.setFont(game_engine->getAssets().getFont("Arial"));
     griTtext.setCharacterSize(10);
@@ -54,6 +56,12 @@ void Scene_InGame::loadLevel(const std::string &filename)
             Vec2 gridPos = Vec2{std::stof(par.at(2)), std::stof(par.at(3))};
             Vec2 pixPos = gridToPixel(gridPos, e);
             e->addComponent<CTransform>(pixPos);
+
+            if (par.at(0) == "Tile")
+            {
+                e->addComponent<CBoundingBox>(e->getComponent<CAnimation>().animation.getSprite().getTexture()->getSize().x,
+                                              e->getComponent<CAnimation>().animation.getSprite().getTexture()->getSize().y);
+            }
         }
     }
 }
@@ -75,6 +83,14 @@ void Scene_InGame::sDoAction(const Action &action)
         else if (action.getName() == "DSPGRID")
         {
             drawGrid = !drawGrid;
+        }
+        else if (action.getName() == "DSPCB")
+        {
+            drawBoundingBox = !drawBoundingBox;
+        }
+        else if (action.getName() == "DSPTEXT")
+        {
+            drawTextures = !drawTextures;
         }
     }
 }
@@ -106,6 +122,15 @@ void Scene_InGame::sRender()
         {
             e->getComponent<CAnimation>().animation.getSprite().setPosition(e->getComponent<CTransform>().pos.x, e->getComponent<CTransform>().pos.y);
             game_engine->getWindow().draw(e->getComponent<CAnimation>().animation.getSprite());
+        }
+    }
+
+    if (drawBoundingBox)
+    {
+        for (auto e : entities.getEntities("Tile"))
+        {
+            e->getComponent<CBoundingBox>().cb.setPosition(e->getComponent<CTransform>().pos.x, e->getComponent<CTransform>().pos.y);
+            game_engine->getWindow().draw(e->getComponent<CBoundingBox>().cb);
         }
     }
 
