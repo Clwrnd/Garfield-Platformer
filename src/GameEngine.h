@@ -28,6 +28,7 @@ public:
     void quit();
     void run();
     void changeScene(const std::string &sceneName, std::shared_ptr<Scene> scene, bool endCurrentScene = false);
+    void changeScene(const std::string &sceneName, bool endCurrentScene = false);
     const std::vector<std::string> readConfigFile(const std::string &path);
     void loadAssets(const std::string &path);
     bool isRunning();

@@ -25,6 +25,10 @@ protected:
     void loadLevel(const std::string &filename);
     void update();
     void sDoAction(const Action &action);
+    void sAnimation();
+    void sMovement();
+    void sBoundingBox();
+    void spwanPlayer();
     Vec2 gridToPixel(Vec2 &gPos, std::shared_ptr<Entity> e);
 
     void onEnd();

@@ -21,11 +21,13 @@ void Scene_InGame::init()
     registerAction(sf::Keyboard::Scan::Scancode::G, "DSPGRID");
     registerAction(sf::Keyboard::Scan::Scancode::C, "DSPCB");
     registerAction(sf::Keyboard::Scan::Scancode::T, "DSPTEXT");
+    registerAction(sf::Keyboard::Scan::Scancode::Escape, "QUIT");
 
     griTtext.setFont(game_engine->getAssets().getFont("Arial"));
     griTtext.setCharacterSize(10);
 
     loadLevel(levelPath);
+    spwanPlayer();
 }
 
 void Scene_InGame::loadLevel(const std::string &filename)
@@ -59,8 +61,8 @@ void Scene_InGame::loadLevel(const std::string &filename)
 
             if (par.at(0) == "Tile")
             {
-                e->addComponent<CBoundingBox>(e->getComponent<CAnimation>().animation.getSprite().getTexture()->getSize().x,
-                                              e->getComponent<CAnimation>().animation.getSprite().getTexture()->getSize().y);
+                e->addComponent<CBoundingBox>(e->getComponent<CAnimation>().animation.getSprite().getTextureRect().getSize().x,
+                                              e->getComponent<CAnimation>().animation.getSprite().getTextureRect().getSize().y);
             }
         }
     }
@@ -92,7 +94,48 @@ void Scene_InGame::sDoAction(const Action &action)
         {
             drawTextures = !drawTextures;
         }
+        else if (action.getName() == "QUIT")
+        {
+            sf::View view = game_engine->getWindow().getView();
+            view.setCenter(game_engine->getWindow().getSize().x / 2.0f, game_engine->getWindow().getSize().y / 2.0f);
+            game_engine->getWindow().setView(view);
+            game_engine->changeScene("menu", true);
+        }
     }
+}
+
+void Scene_InGame::sAnimation()
+{
+    for (auto e : entities.getEntities())
+    {
+        e->getComponent<CAnimation>().animation.getSprite().setPosition(e->getComponent<CTransform>().pos.x, e->getComponent<CTransform>().pos.y);
+        e->getComponent<CAnimation>().animation.update();
+    }
+}
+
+void Scene_InGame::sMovement()
+{
+}
+
+void Scene_InGame::sBoundingBox()
+{
+    for (auto e : entities.getEntities())
+    {
+        if (e->hasComponent<CBoundingBox>())
+        {
+            e->getComponent<CBoundingBox>().cb.setPosition(e->getComponent<CTransform>().pos.x, e->getComponent<CTransform>().pos.y);
+            e->getComponent<CAnimation>().animation.update();
+        }
+    }
+}
+
+void Scene_InGame::spwanPlayer()
+{
+    player = entities.addEntity("player");
+    player->addComponent<CTransform>(Vec2{100, 100});
+    player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("idleGar"));
+    player->addComponent<CBoundingBox>(player->getComponent<CAnimation>().animation.getSprite().getTextureRect().getSize().x,
+                                       player->getComponent<CAnimation>().animation.getSprite().getTextureRect().getSize().y);
 }
 
 Vec2 Scene_InGame::gridToPixel(Vec2 &gPos, std::shared_ptr<Entity> e)
@@ -120,17 +163,18 @@ void Scene_InGame::sRender()
     {
         for (auto e : entities.getEntities())
         {
-            e->getComponent<CAnimation>().animation.getSprite().setPosition(e->getComponent<CTransform>().pos.x, e->getComponent<CTransform>().pos.y);
             game_engine->getWindow().draw(e->getComponent<CAnimation>().animation.getSprite());
         }
     }
 
     if (drawBoundingBox)
     {
-        for (auto e : entities.getEntities("Tile"))
+        for (auto e : entities.getEntities())
         {
-            e->getComponent<CBoundingBox>().cb.setPosition(e->getComponent<CTransform>().pos.x, e->getComponent<CTransform>().pos.y);
-            game_engine->getWindow().draw(e->getComponent<CBoundingBox>().cb);
+            if (e->hasComponent<CBoundingBox>())
+            {
+                game_engine->getWindow().draw(e->getComponent<CBoundingBox>().cb);
+            }
         }
     }
 
@@ -165,5 +209,8 @@ void Scene_InGame::sRender()
 void Scene_InGame::update()
 {
     entities.update();
+    sMovement();
+    sBoundingBox();
+    sAnimation();
     sRender();
 }

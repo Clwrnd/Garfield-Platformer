@@ -102,7 +102,7 @@ void GameEngine::loadAssets(const std::string &path)
         {
             assets.addFont(paramVec.at(1), paramVec.at(2));
         }
-        else if(typeS == "Sound")
+        else if (typeS == "Sound")
         {
             assets.addSoundBuffer(paramVec.at(1), paramVec.at(2));
         }
@@ -113,13 +113,22 @@ void GameEngine::loadAssets(const std::string &path)
 
 void GameEngine::changeScene(const std::string &sceneName, std::shared_ptr<Scene> scene, bool endCurrentScene)
 {
-    if(endCurrentScene)
+    if (endCurrentScene)
     {
         scenes.erase(current_scene);
     }
 
     current_scene = sceneName;
     scenes[sceneName] = scene;
+}
+
+void GameEngine::changeScene(const std::string &sceneName, bool endCurrentScene)
+{
+    if (endCurrentScene)
+    {
+        scenes.erase(current_scene);
+    }
+    current_scene = sceneName;
 }
 
 std::shared_ptr<Scene> GameEngine::getCurrent_Scene()
