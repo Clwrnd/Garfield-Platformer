@@ -18,6 +18,7 @@ void Scene_InGame::init()
 {
     registerAction(sf::Keyboard::Scan::Scancode::A, "LEFT");
     registerAction(sf::Keyboard::Scan::Scancode::D, "RIGHT");
+    registerAction(sf::Keyboard::Scan::Scancode::W, "JUMP");
     registerAction(sf::Keyboard::Scan::Scancode::G, "DSPGRID");
     registerAction(sf::Keyboard::Scan::Scancode::C, "DSPCB");
     registerAction(sf::Keyboard::Scan::Scancode::T, "DSPTEXT");
@@ -39,33 +40,66 @@ void Scene_InGame::loadLevel(const std::string &filename)
 
     std::string line;
     std::string param;
+    std::string typeS;
+    std::vector<std::string> paramVec;
 
     while (std::getline(levelFile, line))
     {
-        std::getline(std::stringstream(line), param, ' ');
+        std::getline(std::stringstream(line), typeS, ' ');
+        paramVec.clear();
 
-        if (param == "Tile" || param == "Dec")
+        std::stringstream ssline(line);
+        while (std::getline(ssline, param, ' '))
         {
-            std::vector<std::string> par;
-            std::stringstream ssline(line);
-            while (std::getline(ssline, param, ' '))
-            {
-                par.push_back(param);
-            }
-            auto e = entities.addEntity(par.at(0));
+            paramVec.push_back(param);
+        }
 
-            e->addComponent<CAnimation>(game_engine->getAssets().getAnimation(par.at(1)));
-            Vec2 gridPos = Vec2{std::stof(par.at(2)), std::stof(par.at(3))};
+        if (typeS == "Tile" || typeS == "Dec")
+        {
+
+            auto e = entities.addEntity(typeS);
+
+            e->addComponent<CAnimation>(game_engine->getAssets().getAnimation(paramVec.at(1)));
+            Vec2 gridPos = Vec2{std::stof(paramVec.at(2)), std::stof(paramVec.at(3))};
             Vec2 pixPos = gridToPixel(gridPos, e);
             e->addComponent<CTransform>(pixPos);
 
-            if (par.at(0) == "Tile")
+            if (typeS == "Tile")
             {
                 e->addComponent<CBoundingBox>(e->getComponent<CAnimation>().animation.getSprite().getTextureRect().getSize().x,
                                               e->getComponent<CAnimation>().animation.getSprite().getTextureRect().getSize().y);
             }
         }
+        else if (typeS == "Player")
+        {
+            plConfig.X = std::stof(paramVec.at(1));
+            plConfig.Y = std::stof(paramVec.at(2));
+            plConfig.CX = std::stof(paramVec.at(3));
+            plConfig.CY = std::stof(paramVec.at(4));
+            plConfig.SPEED = std::stof(paramVec.at(5));
+            plConfig.JUMP = std::stof(paramVec.at(6));
+            plConfig.MAXSPEED = std::stof(paramVec.at(7));
+            plConfig.GRAVITY = std::stof(paramVec.at(8));
+            plConfig.WEAPON = paramVec.at(9);
+        }
     }
+}
+
+void Scene_InGame::spwanPlayer()
+{
+    player = entities.addEntity("player");
+    Vec2 pos{plConfig.X, plConfig.Y};
+    player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("idleGar"));
+    player->addComponent<CTransform>(gridToPixel(Vec2{plConfig.X, plConfig.Y}, player), Vec2{plConfig.SPEED, plConfig.JUMP});
+    player->addComponent<CBoundingBox>(plConfig.CX, plConfig.CY);
+    player->addComponent<CInput>();
+}
+
+Vec2 Scene_InGame::gridToPixel(const Vec2 &gPos, std::shared_ptr<Entity> e)
+{
+    float x = gPos.x * gridSize.x + e->getComponent<CAnimation>().animation.getSprite().getTexture()->getSize().x / 2;
+    float y = height() - gPos.y * gridSize.y - e->getComponent<CAnimation>().animation.getSprite().getTexture()->getSize().y / 2;
+    return Vec2(x, y);
 }
 
 void Scene_InGame::sDoAction(const Action &action)
@@ -74,13 +108,15 @@ void Scene_InGame::sDoAction(const Action &action)
     {
         if (action.getName() == "LEFT")
         {
-            t = t - 20;
-            std::cout << "Q";
+            player->getComponent<CInput>().left = true;
         }
         else if (action.getName() == "RIGHT")
         {
-            t = t + 20;
-            std::cout << "D";
+            player->getComponent<CInput>().right = true;
+        }
+        else if (action.getName() == "JUMP")
+        {
+            player->getComponent<CInput>().up = true;
         }
         else if (action.getName() == "DSPGRID")
         {
@@ -102,51 +138,21 @@ void Scene_InGame::sDoAction(const Action &action)
             game_engine->changeScene("menu", true);
         }
     }
-}
-
-void Scene_InGame::sAnimation()
-{
-    for (auto e : entities.getEntities())
+    else
     {
-        e->getComponent<CAnimation>().animation.getSprite().setPosition(e->getComponent<CTransform>().pos.x, e->getComponent<CTransform>().pos.y);
-        e->getComponent<CAnimation>().animation.update();
-    }
-}
-
-void Scene_InGame::sMovement()
-{
-}
-
-void Scene_InGame::sBoundingBox()
-{
-    for (auto e : entities.getEntities())
-    {
-        if (e->hasComponent<CBoundingBox>())
+        if (action.getName() == "LEFT")
         {
-            e->getComponent<CBoundingBox>().cb.setPosition(e->getComponent<CTransform>().pos.x, e->getComponent<CTransform>().pos.y);
-            e->getComponent<CAnimation>().animation.update();
+            player->getComponent<CInput>().left = false;
+        }
+        else if (action.getName() == "RIGHT")
+        {
+            player->getComponent<CInput>().right = false;
+        }
+        else if (action.getName() == "JUMP")
+        {
+            player->getComponent<CInput>().up = false;
         }
     }
-}
-
-void Scene_InGame::spwanPlayer()
-{
-    player = entities.addEntity("player");
-    player->addComponent<CTransform>(Vec2{100, 100});
-    player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("idleGar"));
-    player->addComponent<CBoundingBox>(player->getComponent<CAnimation>().animation.getSprite().getTextureRect().getSize().x,
-                                       player->getComponent<CAnimation>().animation.getSprite().getTextureRect().getSize().y);
-}
-
-Vec2 Scene_InGame::gridToPixel(Vec2 &gPos, std::shared_ptr<Entity> e)
-{
-    float x = gPos.x * gridSize.x + e->getComponent<CAnimation>().animation.getSprite().getTexture()->getSize().x / 2;
-    float y = height() - gPos.y * gridSize.y - e->getComponent<CAnimation>().animation.getSprite().getTexture()->getSize().y / 2;
-    return Vec2(x, y);
-}
-
-void Scene_InGame::onEnd()
-{
 }
 
 void Scene_InGame::sRender()
@@ -204,6 +210,46 @@ void Scene_InGame::sRender()
     }
 
     game_engine->getWindow().display();
+}
+
+void Scene_InGame::sAnimation()
+{
+    for (auto e : entities.getEntities())
+    {
+        if (e->hasComponent<CAnimation>())
+        {
+            e->getComponent<CAnimation>().animation.getSprite().setPosition(e->getComponent<CTransform>().pos.x, e->getComponent<CTransform>().pos.y);
+            e->getComponent<CAnimation>().animation.update();
+        }
+    }
+}
+
+void Scene_InGame::sMovement()
+{
+    if (player->getComponent<CInput>().right)
+    {
+        player->getComponent<CTransform>().pos.x += player->getComponent<CTransform>().speed.x;
+    }
+    if (player->getComponent<CInput>().left)
+    {
+        player->getComponent<CTransform>().pos.x -= player->getComponent<CTransform>().speed.x;
+    }
+}
+
+void Scene_InGame::sBoundingBox()
+{
+    for (auto e : entities.getEntities())
+    {
+        if (e->hasComponent<CBoundingBox>())
+        {
+            e->getComponent<CBoundingBox>().cb.setPosition(e->getComponent<CTransform>().pos.x, e->getComponent<CTransform>().pos.y);
+            e->getComponent<CAnimation>().animation.update();
+        }
+    }
+}
+
+void Scene_InGame::onEnd()
+{
 }
 
 void Scene_InGame::update()

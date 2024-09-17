@@ -8,14 +8,14 @@ Texture menuGarTex ../../images/inMenu.png
 Texture staticGarMenu ../../images/garfieldStaticMenu.png
 Texture floor64 ../../images/floorBlue64.png
 Texture wall64 ../../images/wallPurple64.png
-Texture runGar64 ../../images/RunGar64.png
-Texture idleGar64 ../../images/garIdle64.png
+Texture runGar40_50 ../../images/RunGar40_50.png
+Texture idleGar40_50 ../../images/garIdle40_50.png
 Animation staticGarMenuAn staticGarMenu 1 0
 Animation menuGarAn menuGarTex 2 30
 Animation Wall wall64 1 0
 Animation Floor floor64 1 0
-Animation RunGar runGar64 8 1
-Animation idleGar idleGar64 4 25
+Animation RunGar runGar40_50 8 20
+Animation idleGar idleGar40_50 4 25
 
 
 

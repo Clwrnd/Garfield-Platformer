@@ -14,15 +14,14 @@ class CTransform : public Component
 public:
     Vec2 pos = {0, 0};
     Vec2 speed = {0, 0};
-    float ang = 0;
 
     CTransform() {};
     CTransform(const Vec2 &posVar)
         : pos(posVar)
     {
     }
-    CTransform(const Vec2 &posVar, const Vec2 &speedVar, float angVar)
-        : pos(posVar), speed(speedVar), ang(angVar)
+    CTransform(const Vec2 &posVar, const Vec2 &speedVar)
+        : pos(posVar), speed(speedVar)
     {
     }
 };
@@ -43,6 +42,12 @@ public:
 class CInput : public Component
 {
 public:
+    bool up = false;
+    bool down = false;
+    bool left = false;
+    bool right = false;
+    bool shoot = false;
+
     CInput() {}
 };
 

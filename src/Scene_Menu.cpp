@@ -6,8 +6,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-
-
 Scene_Menu::Scene_Menu(std::vector<std::string> levPaths, GameEngine *gameEngine)
     : Scene(gameEngine), levelPaths(levPaths)
 {
@@ -58,11 +56,11 @@ void Scene_Menu::initMenuObject()
 
     staticGar = entities.addEntity("staticGarMenu");
     staticGar->addComponent<CAnimation>(game_engine->getAssets().getAnimation("staticGarMenuAn"));
-    staticGar->addComponent<CTransform>(Vec2{1000, 510}, Vec2{0, 0}, 0);
+    staticGar->addComponent<CTransform>(Vec2{1000, 510}, Vec2{0, 0});
 
     anGar = entities.addEntity("anGarMenu");
     anGar->addComponent<CAnimation>(game_engine->getAssets().getAnimation("menuGarAn"));
-    anGar->addComponent<CTransform>(Vec2{menuTexts.at(selectedMenuIndex).getGlobalBounds().getPosition().x + menuTexts.at(selectedMenuIndex).getGlobalBounds().width + 50, menuTexts.at(selectedMenuIndex).getGlobalBounds().getPosition().y + menuTexts.at(selectedMenuIndex).getGlobalBounds().height / 2}, Vec2{0, 0}, 0);
+    anGar->addComponent<CTransform>(Vec2{menuTexts.at(selectedMenuIndex).getGlobalBounds().getPosition().x + menuTexts.at(selectedMenuIndex).getGlobalBounds().width + 50, menuTexts.at(selectedMenuIndex).getGlobalBounds().getPosition().y + menuTexts.at(selectedMenuIndex).getGlobalBounds().height / 2});
 
     ambiantSound.setBuffer(game_engine->getAssets().getSoundBuffer("ambientSound"));
     ambiantSound.setLoop(true);
@@ -135,10 +133,10 @@ void Scene_Menu::onEnd()
     else
     {
         sf::Sound s(game_engine->getAssets().getSoundBuffer("coolSel"));
-            s.play();
-            while (s.getStatus() == sf::Sound::Status::Playing)
-                ;
-        game_engine->changeScene("gameplay",std::make_shared<Scene_InGame>(levelPaths.at(selectedMenuIndex),game_engine));
+        s.play();
+        while (s.getStatus() == sf::Sound::Status::Playing)
+            ;
+        game_engine->changeScene("gameplay", std::make_shared<Scene_InGame>(levelPaths.at(selectedMenuIndex), game_engine));
     }
 }
 
