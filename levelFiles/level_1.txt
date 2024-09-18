@@ -297,6 +297,6 @@ Dec Wall 22 9
 Dec Wall 22 10
 Dec Wall 22 11
 Dec Wall 22 12
-Player 1 2 40 50 2 3 5 1 bullet
+Player 1 2 40 50 7 3 5 1 bullet
 
 

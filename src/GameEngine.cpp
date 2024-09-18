@@ -15,6 +15,7 @@ void GameEngine::init(const std::string &config)
     // read all windows parameters and assets and levels files (not a very good idea
     // to mix a void and a return but it work and is coherent with the architecture )
     std::vector<std::string> levelsPaths = readConfigFile(config);
+    window.setKeyRepeatEnabled(false);
 
     changeScene("menu", std::make_shared<Scene_Menu>(levelsPaths, this));
 }

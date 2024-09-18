@@ -108,10 +108,13 @@ void Scene_InGame::sDoAction(const Action &action)
     {
         if (action.getName() == "LEFT")
         {
+            player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("RunGar"));
+            player->getComponent<CAnimation>().animation.getSprite().setScale(-1, 1);
             player->getComponent<CInput>().left = true;
         }
         else if (action.getName() == "RIGHT")
         {
+            player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("RunGar"));
             player->getComponent<CInput>().right = true;
         }
         else if (action.getName() == "JUMP")
@@ -142,10 +145,12 @@ void Scene_InGame::sDoAction(const Action &action)
     {
         if (action.getName() == "LEFT")
         {
+            player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("idleGar"));
             player->getComponent<CInput>().left = false;
         }
         else if (action.getName() == "RIGHT")
         {
+            player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("idleGar"));
             player->getComponent<CInput>().right = false;
         }
         else if (action.getName() == "JUMP")
