@@ -29,6 +29,7 @@ protected:
     void sMovement();
     void sBoundingBox();
     void spwanPlayer();
+    void sGravity();
     Vec2 gridToPixel(const Vec2 &gPos, std::shared_ptr<Entity> e);
 
     void onEnd();

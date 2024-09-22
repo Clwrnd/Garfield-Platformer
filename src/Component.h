@@ -13,6 +13,7 @@ class CTransform : public Component
 {
 public:
     Vec2 pos = {0, 0};
+    Vec2 previousPos = {0, 0};
     Vec2 speed = {0, 0};
 
     CTransform() {};
@@ -83,7 +84,12 @@ public:
 class CGravity : public Component
 {
 public:
+    float strenght;
     CGravity() {}
+    CGravity(float strenghtVar)
+        : strenght(strenghtVar)
+    {
+    }
 };
 
 class CState : public Component

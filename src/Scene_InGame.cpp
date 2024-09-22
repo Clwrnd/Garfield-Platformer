@@ -90,9 +90,10 @@ void Scene_InGame::spwanPlayer()
     player = entities.addEntity("player");
     Vec2 pos{plConfig.X, plConfig.Y};
     player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("idleGar"));
-    player->addComponent<CTransform>(gridToPixel(Vec2{plConfig.X, plConfig.Y}, player), Vec2{plConfig.SPEED, plConfig.JUMP});
+    player->addComponent<CTransform>(gridToPixel(Vec2{plConfig.X, plConfig.Y}, player), Vec2{plConfig.SPEED, 0});
     player->addComponent<CBoundingBox>(plConfig.CX, plConfig.CY);
     player->addComponent<CInput>();
+    player->addComponent<CGravity>(plConfig.GRAVITY);
 }
 
 Vec2 Scene_InGame::gridToPixel(const Vec2 &gPos, std::shared_ptr<Entity> e)
@@ -100,6 +101,14 @@ Vec2 Scene_InGame::gridToPixel(const Vec2 &gPos, std::shared_ptr<Entity> e)
     float x = gPos.x * gridSize.x + e->getComponent<CAnimation>().animation.getSprite().getTexture()->getSize().x / 2;
     float y = height() - gPos.y * gridSize.y - e->getComponent<CAnimation>().animation.getSprite().getTexture()->getSize().y / 2;
     return Vec2(x, y);
+}
+
+void Scene_InGame::sGravity()
+{
+    if (true)
+    {
+        player->getComponent<CTransform>().speed.y += player->getComponent<CGravity>().strenght;
+    }
 }
 
 void Scene_InGame::sDoAction(const Action &action)
@@ -264,6 +273,10 @@ void Scene_InGame::sAnimation()
 
 void Scene_InGame::sMovement()
 {
+    player->getComponent<CTransform>().previousPos = player->getComponent<CTransform>().pos;
+
+    player->getComponent<CTransform>().pos.y += player->getComponent<CTransform>().speed.y;
+
     if (player->getComponent<CInput>().right)
     {
         player->getComponent<CTransform>().pos.x += player->getComponent<CTransform>().speed.x;
@@ -293,6 +306,7 @@ void Scene_InGame::onEnd()
 void Scene_InGame::update()
 {
     entities.update();
+    sGravity();
     sMovement();
     sBoundingBox();
     sAnimation();
