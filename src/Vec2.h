@@ -11,6 +11,7 @@ public:
 
     bool operator==(const Vec2 &toComp) const;
     bool operator!=(const Vec2 &toComp) const;
+    bool isPositiv() const;
 
     Vec2 operator*(const float toMult) const;
     Vec2 operator/(const float toDiv) const;

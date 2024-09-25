@@ -18,11 +18,11 @@ public:
 
     CTransform() {};
     CTransform(const Vec2 &posVar)
-        : pos(posVar)
+        : pos(posVar), previousPos(posVar)
     {
     }
     CTransform(const Vec2 &posVar, const Vec2 &speedVar)
-        : pos(posVar), speed(speedVar)
+        : pos(posVar), speed(speedVar), previousPos(posVar)
     {
     }
 };

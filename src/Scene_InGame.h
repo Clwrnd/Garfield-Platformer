@@ -30,6 +30,7 @@ protected:
     void sBoundingBox();
     void spwanPlayer();
     void sGravity();
+    void sCollision();
     Vec2 gridToPixel(const Vec2 &gPos, std::shared_ptr<Entity> e);
 
     void onEnd();

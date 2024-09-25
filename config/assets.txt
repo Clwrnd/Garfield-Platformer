@@ -6,16 +6,18 @@ Sound MenuChanging ../../sound/menuSel.wav
 Sound ambientSound ../../sound/iFeelGood.wav
 Texture menuGarTex ../../images/inMenu.png
 Texture staticGarMenu ../../images/garfieldStaticMenu.png
-Texture floor64 ../../images/floorBlue64.png
+Texture floor64 ../../images/block64.png
 Texture wall64 ../../images/wallPurple64.png
 Texture runGar40_50 ../../images/RunGar40_50.png
 Texture idleGar40_50 ../../images/garIdle40_50.png
+Texture tubeCusGar ../../images/tubeCs.png
 Animation staticGarMenuAn staticGarMenu 1 0
 Animation menuGarAn menuGarTex 2 30
 Animation Wall wall64 1 0
 Animation Floor floor64 1 0
 Animation RunGar runGar40_50 8 20
 Animation idleGar idleGar40_50 4 25
+Animation Tube tubeCusGar 1 0 
 
 
 

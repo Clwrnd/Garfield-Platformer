@@ -6,6 +6,7 @@
 #include <sstream>
 #include <fstream>
 
+#include "Physics.h"
 #include "GameEngine.h"
 
 Scene_InGame::Scene_InGame(const std::string &levelPathVar, GameEngine *gameEngine)
@@ -105,10 +106,7 @@ Vec2 Scene_InGame::gridToPixel(const Vec2 &gPos, std::shared_ptr<Entity> e)
 
 void Scene_InGame::sGravity()
 {
-    if (true)
-    {
-        player->getComponent<CTransform>().speed.y += player->getComponent<CGravity>().strenght;
-    }
+    player->getComponent<CTransform>().speed.y += player->getComponent<CGravity>().strenght;
 }
 
 void Scene_InGame::sDoAction(const Action &action)
@@ -299,6 +297,34 @@ void Scene_InGame::sBoundingBox()
     }
 }
 
+void Scene_InGame::sCollision()
+{
+    for (auto e : entities.getEntities("Tile"))
+    {
+        Vec2 ovV = Physics::getOverlap(player, e);
+
+        if (ovV.isPositiv())
+        {
+            Vec2 ovVPr = Physics::getPreviousOverlap(player, e);
+            if (ovV.y > ovVPr.y && ovVPr.x > 0)
+            {
+                player->getComponent<CTransform>().speed.y = 0;
+                player->getComponent<CTransform>().pos.y -= ovV.y;
+            }
+            else if (ovV.x > ovVPr.x && ovVPr.y > 0)
+            {
+                std::cout << ovV.x << ovVPr.x;
+                player->getComponent<CTransform>().pos.x -= ovV.x;
+            }
+            else if (ovV.x < ovVPr.x && ovVPr.y > 0)
+            {
+                std::cout << "Right";
+                player->getComponent<CTransform>().pos.x += ovV.x;
+            }
+        }
+    }
+}
+
 void Scene_InGame::onEnd()
 {
 }
@@ -308,6 +334,7 @@ void Scene_InGame::update()
     entities.update();
     sGravity();
     sMovement();
+    sCollision();
     sBoundingBox();
     sAnimation();
     sRender();

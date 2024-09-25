@@ -1,12 +1,12 @@
 #include "Vec2.h"
 #include <math.h>
 
-Vec2::Vec2(){
+Vec2::Vec2() {
 
 };
 
 Vec2::Vec2(float xin, float yin)
-    : x(xin), y(yin){};
+    : x(xin), y(yin) {};
 
 bool Vec2::operator==(const Vec2 &toComp) const
 {
@@ -16,6 +16,11 @@ bool Vec2::operator==(const Vec2 &toComp) const
 bool Vec2::operator!=(const Vec2 &toComp) const
 {
     return !(x == toComp.x && y == toComp.y);
+}
+
+bool Vec2::isPositiv() const
+{
+    return x > 0 && y > 0;
 }
 
 Vec2 Vec2::operator*(const float toMult) const
