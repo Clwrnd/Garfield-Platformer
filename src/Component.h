@@ -52,6 +52,20 @@ public:
     CInput() {}
 };
 
+class CMovement : public Component
+{
+public:
+    bool isJumping = false;
+    bool isRight = false;
+    bool isLeft = false;
+
+    bool wasJumping = false;
+    bool wasRight = false;
+    bool wasLeft = false;
+
+    CMovement() {}
+};
+
 class CBoundingBox : public Component
 {
 public:

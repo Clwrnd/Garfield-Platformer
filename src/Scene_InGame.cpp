@@ -78,7 +78,7 @@ void Scene_InGame::loadLevel(const std::string &filename)
             plConfig.CX = std::stof(paramVec.at(3));
             plConfig.CY = std::stof(paramVec.at(4));
             plConfig.SPEED = std::stof(paramVec.at(5));
-            plConfig.JUMP = std::stof(paramVec.at(6));
+            plConfig.JUMP = -std::stof(paramVec.at(6));
             plConfig.MAXSPEED = std::stof(paramVec.at(7));
             plConfig.GRAVITY = std::stof(paramVec.at(8));
             plConfig.WEAPON = paramVec.at(9);
@@ -95,6 +95,7 @@ void Scene_InGame::spwanPlayer()
     player->addComponent<CBoundingBox>(plConfig.CX, plConfig.CY);
     player->addComponent<CInput>();
     player->addComponent<CGravity>(plConfig.GRAVITY);
+    player->addComponent<CMovement>();
 }
 
 Vec2 Scene_InGame::gridToPixel(const Vec2 &gPos, std::shared_ptr<Entity> e)
@@ -115,34 +116,19 @@ void Scene_InGame::sDoAction(const Action &action)
     {
         if (action.getName() == "LEFT")
         {
-            if (!player->getComponent<CInput>().right)
-            {
-                player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("RunGar"));
-                player->getComponent<CAnimation>().animation.getSprite().setScale(-1, 1);
-            }
-            else
-            {
-                player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("idleGar"));
-            }
-
             player->getComponent<CInput>().left = true;
+            player->getComponent<CMovement>().isLeft = true;
         }
         else if (action.getName() == "RIGHT")
         {
-            if (!player->getComponent<CInput>().left)
-            {
-                player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("RunGar"));
-            }
-            else
-            {
-                player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("idleGar"));
-            }
-
             player->getComponent<CInput>().right = true;
+            player->getComponent<CMovement>().isRight = true;
         }
         else if (action.getName() == "JUMP")
         {
+            player->getComponent<CTransform>().speed.y = plConfig.JUMP;
             player->getComponent<CInput>().up = true;
+            player->getComponent<CMovement>().isJumping = true;
         }
         else if (action.getName() == "DSPGRID")
         {
@@ -168,30 +154,13 @@ void Scene_InGame::sDoAction(const Action &action)
     {
         if (action.getName() == "LEFT")
         {
-            if (!player->getComponent<CInput>().right)
-            {
-                player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("idleGar"));
-            }
-            else
-            {
-                player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("RunGar"));
-            }
-
             player->getComponent<CInput>().left = false;
+            player->getComponent<CMovement>().isLeft = false;
         }
         else if (action.getName() == "RIGHT")
         {
-            if (!player->getComponent<CInput>().left)
-            {
-                player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("idleGar"));
-            }
-            else
-            {
-                player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("RunGar"));
-                player->getComponent<CAnimation>().animation.getSprite().setScale(-1, 1);
-            }
-
             player->getComponent<CInput>().right = false;
+            player->getComponent<CMovement>().isRight = false;
         }
         else if (action.getName() == "JUMP")
         {
@@ -259,6 +228,17 @@ void Scene_InGame::sRender()
 
 void Scene_InGame::sAnimation()
 {
+
+    if (player->getComponent<CMovement>().isJumping && !player->getComponent<CMovement>().wasJumping)
+    {
+        player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("JumpGar"));
+        // if right scale same for left
+    }
+    if (!player->getComponent<CMovement>().isJumping && player->getComponent<CMovement>().wasJumping)
+    {
+        player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("idleGar"));
+    }
+
     for (auto e : entities.getEntities())
     {
         if (e->hasComponent<CAnimation>())
@@ -267,6 +247,8 @@ void Scene_InGame::sAnimation()
             e->getComponent<CAnimation>().animation.update();
         }
     }
+
+    player->getComponent<CMovement>().wasJumping = player->getComponent<CMovement>().isJumping;
 }
 
 void Scene_InGame::sMovement()
@@ -306,19 +288,18 @@ void Scene_InGame::sCollision()
         if (ovV.isPositiv())
         {
             Vec2 ovVPr = Physics::getPreviousOverlap(player, e);
-            if (ovV.y > ovVPr.y && ovVPr.x > 0)
+            if (player->getComponent<CTransform>().pos.y > player->getComponent<CTransform>().previousPos.y && ovVPr.x > 0)
             {
                 player->getComponent<CTransform>().speed.y = 0;
                 player->getComponent<CTransform>().pos.y -= ovV.y;
+                player->getComponent<CMovement>().isJumping = false;
             }
-            else if (ovV.x > ovVPr.x && ovVPr.y > 0)
+            else if (player->getComponent<CTransform>().pos.x > player->getComponent<CTransform>().previousPos.x && ovVPr.y > 0)
             {
-                std::cout << ovV.x << ovVPr.x;
                 player->getComponent<CTransform>().pos.x -= ovV.x;
             }
-            else if (ovV.x < ovVPr.x && ovVPr.y > 0)
+            else if (player->getComponent<CTransform>().pos.x < player->getComponent<CTransform>().previousPos.x && ovVPr.y > 0)
             {
-                std::cout << "Right";
                 player->getComponent<CTransform>().pos.x += ovV.x;
             }
         }
