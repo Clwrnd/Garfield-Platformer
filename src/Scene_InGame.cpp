@@ -165,6 +165,8 @@ void Scene_InGame::sDoAction(const Action &action)
         else if (action.getName() == "JUMP")
         {
             player->getComponent<CInput>().up = false;
+            if (player->getComponent<CTransform>().speed.y < 0)
+                player->getComponent<CTransform>().speed.y = 2;
         }
     }
 }
