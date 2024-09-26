@@ -32,6 +32,7 @@ protected:
     void sGravity();
     void sCollision();
     void animationDirection();
+    bool inTheAir();
     Vec2 gridToPixel(const Vec2 &gPos, std::shared_ptr<Entity> e);
 
     void onEnd();

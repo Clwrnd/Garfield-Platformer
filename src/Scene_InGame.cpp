@@ -124,7 +124,7 @@ void Scene_InGame::sDoAction(const Action &action)
             player->getComponent<CInput>().right = true;
             player->getComponent<CMovement>().isRight = true;
         }
-        else if (action.getName() == "JUMP")
+        else if (action.getName() == "JUMP" && !inTheAir())
         {
             player->getComponent<CTransform>().speed.y = plConfig.JUMP;
             player->getComponent<CInput>().up = true;
@@ -258,6 +258,10 @@ void Scene_InGame::sMovement()
     {
         player->getComponent<CTransform>().pos.x -= player->getComponent<CTransform>().speed.x;
     }
+    if (player->getComponent<CInput>().up)
+    {
+        player->getComponent<CTransform>().pos.y += player->getComponent<CTransform>().speed.y;
+    }
 }
 
 void Scene_InGame::sBoundingBox()
@@ -301,6 +305,8 @@ void Scene_InGame::sCollision()
 
 void Scene_InGame::animationDirection()
 {
+    // a real nightmare, It must have an easier way to implement this but I didn't found it so ...
+
     if (player->getComponent<CMovement>().isJumping && !player->getComponent<CMovement>().wasJumping)
     {
         player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("JumpGar"));
@@ -362,6 +368,23 @@ void Scene_InGame::animationDirection()
         player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("JumpGar"));
         player->getComponent<CAnimation>().animation.getSprite().setScale(1, 1);
     }
+}
+
+bool Scene_InGame::inTheAir()
+{
+    bool toReturn = true;
+    player->getComponent<CMovement>().isJumping = true;
+
+    for (auto e : entities.getEntities("Tile"))
+    {
+        if (e->getComponent<CTransform>().pos.y - e->getComponent<CBoundingBox>().height / 2 == player->getComponent<CTransform>().pos.y + player->getComponent<CBoundingBox>().height / 2 &&
+            e->getComponent<CTransform>().pos.x - e->getComponent<CBoundingBox>().width / 2 <= player->getComponent<CTransform>().pos.x && e->getComponent<CTransform>().pos.x + e->getComponent<CBoundingBox>().width / 2 >= player->getComponent<CTransform>().pos.x)
+        {
+            player->getComponent<CMovement>().isJumping = false;
+            toReturn = false;
+        }
+    }
+    return toReturn;
 }
 
 void Scene_InGame::onEnd()

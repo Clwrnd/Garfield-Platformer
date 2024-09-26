@@ -298,6 +298,6 @@ Dec Wall 22 10
 Dec Wall 22 11
 Dec Wall 22 12
 Tile Tube 14 2
-Player 20 10 40 50 5 21 5 0.8 bullet
+Player 20 10 40 50 5 15 5 0.8 bullet
 
 
