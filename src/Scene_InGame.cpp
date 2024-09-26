@@ -232,11 +232,63 @@ void Scene_InGame::sAnimation()
     if (player->getComponent<CMovement>().isJumping && !player->getComponent<CMovement>().wasJumping)
     {
         player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("JumpGar"));
-        // if right scale same for left
     }
     if (!player->getComponent<CMovement>().isJumping && player->getComponent<CMovement>().wasJumping)
     {
+        if (player->getComponent<CMovement>().isRight)
+        {
+            player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("RunGar"));
+            player->getComponent<CAnimation>().animation.getSprite().setScale(1, 1);
+        }
+        else if (player->getComponent<CMovement>().isLeft)
+        {
+            player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("RunGar"));
+            player->getComponent<CAnimation>().animation.getSprite().setScale(-1, 1);
+        }
+        else
+        {
+            player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("idleGar"));
+        }
+    }
+    if (player->getComponent<CMovement>().isJumping && player->getComponent<CMovement>().wasJumping)
+    {
+        if (player->getComponent<CMovement>().isLeft && !player->getComponent<CMovement>().wasLeft)
+        {
+            player->getComponent<CAnimation>().animation.getSprite().setScale(-1, 1);
+        }
+        if (player->getComponent<CMovement>().isRight && !player->getComponent<CMovement>().wasRight)
+        {
+            player->getComponent<CAnimation>().animation.getSprite().setScale(1, 1);
+        }
+    }
+    if (player->getComponent<CMovement>().isRight && (!player->getComponent<CMovement>().wasRight || (player->getComponent<CMovement>().wasLeft && !player->getComponent<CMovement>().isLeft)) && !player->getComponent<CMovement>().isJumping)
+    {
+        player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("RunGar"));
+        player->getComponent<CAnimation>().animation.getSprite().setScale(1, 1);
+    }
+    if (player->getComponent<CMovement>().isLeft && (!player->getComponent<CMovement>().wasLeft || (player->getComponent<CMovement>().wasRight && !player->getComponent<CMovement>().isRight)) && !player->getComponent<CMovement>().isJumping)
+    {
+        player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("RunGar"));
+        player->getComponent<CAnimation>().animation.getSprite().setScale(-1, 1);
+    }
+    if (!player->getComponent<CMovement>().isLeft && !player->getComponent<CMovement>().isRight && !player->getComponent<CMovement>().isJumping &&
+        (player->getComponent<CMovement>().wasLeft || player->getComponent<CMovement>().wasRight || player->getComponent<CMovement>().wasJumping))
+    {
         player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("idleGar"));
+    }
+    if (player->getComponent<CMovement>().isLeft && player->getComponent<CMovement>().isRight && (!player->getComponent<CMovement>().wasLeft || !player->getComponent<CMovement>().wasRight) && !player->getComponent<CMovement>().isJumping)
+    {
+        player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("idleGar"));
+    }
+    if (player->getComponent<CMovement>().isLeft && !player->getComponent<CMovement>().wasJumping && player->getComponent<CMovement>().isJumping)
+    {
+        player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("JumpGar"));
+        player->getComponent<CAnimation>().animation.getSprite().setScale(-1, 1);
+    }
+    if (player->getComponent<CMovement>().isRight && !player->getComponent<CMovement>().wasJumping && player->getComponent<CMovement>().isJumping)
+    {
+        player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("JumpGar"));
+        player->getComponent<CAnimation>().animation.getSprite().setScale(1, 1);
     }
 
     for (auto e : entities.getEntities())
@@ -249,6 +301,8 @@ void Scene_InGame::sAnimation()
     }
 
     player->getComponent<CMovement>().wasJumping = player->getComponent<CMovement>().isJumping;
+    player->getComponent<CMovement>().wasLeft = player->getComponent<CMovement>().isLeft;
+    player->getComponent<CMovement>().wasRight = player->getComponent<CMovement>().isRight;
 }
 
 void Scene_InGame::sMovement()
