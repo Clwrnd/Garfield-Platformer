@@ -15,6 +15,7 @@ private:
     size_t current_frame;
     size_t speed;
     size_t relativGame_frame = 0;
+    bool noRepeat = false;
 
 public:
     Animation();
@@ -26,4 +27,6 @@ public:
     sf::Sprite &getSprite();
     bool hasEndend() const;
     void update();
+    void mmkNonRepeating();
+    bool isRepeating();
 };

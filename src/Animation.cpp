@@ -34,7 +34,7 @@ sf::Sprite &Animation::getSprite()
 
 bool Animation::hasEndend() const
 {
-    return frame_count == current_frame;
+    return frame_count - 1 == current_frame;
 }
 
 void Animation::update()
@@ -47,4 +47,14 @@ void Animation::update()
     }
 
     sprite.setTextureRect(sf::IntRect(std::floor(current_frame) * size.x, 0, size.x, size.y));
+}
+
+void Animation::mmkNonRepeating()
+{
+    noRepeat = true;
+}
+
+bool Animation::isRepeating()
+{
+    return !noRepeat;
 }

@@ -31,6 +31,7 @@ protected:
     void spwanPlayer();
     void sGravity();
     void sCollision();
+    void sLifeSpan();
     void animationDirection();
     bool inTheAir();
     Vec2 gridToPixel(const Vec2 &gPos, std::shared_ptr<Entity> e);

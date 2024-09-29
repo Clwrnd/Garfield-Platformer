@@ -173,10 +173,10 @@ void Scene_InGame::sDoAction(const Action &action)
 
 void Scene_InGame::sRender()
 {
-    game_engine->getWindow().clear(sf::Color(0, 162, 0));
+    game_engine->getWindow().clear(sf::Color(11, 103, 146));
 
-    // auto & pPos = 1;
-    float windowCenterX = std::max(game_engine->getWindow().getSize().x / 2.0f, t);
+    auto &pPos = player->getComponent<CTransform>().pos;
+    float windowCenterX = std::max(game_engine->getWindow().getSize().x / 2.0f, pPos.x);
     sf::View view = game_engine->getWindow().getView();
     view.setCenter(windowCenterX, game_engine->getWindow().getSize().y - view.getCenter().y);
     game_engine->getWindow().setView(view);
@@ -246,6 +246,18 @@ void Scene_InGame::sAnimation()
     player->getComponent<CMovement>().wasRight = player->getComponent<CMovement>().isRight;
 }
 
+void Scene_InGame::sLifeSpan()
+{
+    for (auto e : entities.getEntities("Tile"))
+    {
+        if (e->hasComponent<CAnimation>() && e->getComponent<CAnimation>().animation.hasEndend() && !e->getComponent<CAnimation>().animation.isRepeating())
+        {
+
+            e->destroy();
+        }
+    }
+}
+
 void Scene_InGame::sMovement()
 {
     player->getComponent<CTransform>().previousPos = player->getComponent<CTransform>().pos;
@@ -300,6 +312,14 @@ void Scene_InGame::sCollision()
             else if (player->getComponent<CTransform>().pos.x < player->getComponent<CTransform>().previousPos.x && ovVPr.y > 0)
             {
                 player->getComponent<CTransform>().pos.x += ovV.x;
+            }
+            else if (player->getComponent<CTransform>().pos.y < player->getComponent<CTransform>().previousPos.y && ovVPr.x > 0)
+            {
+                player->getComponent<CTransform>().speed.y = 0;
+                player->getComponent<CTransform>().pos.y += ovV.y;
+                e->removeComponent<CBoundingBox>();
+                e->addComponent<CAnimation>(game_engine->getAssets().getAnimation("Explosion"));
+                e->getComponent<CAnimation>().animation.mmkNonRepeating();
             }
         }
     }
@@ -401,5 +421,6 @@ void Scene_InGame::update()
     sCollision();
     sBoundingBox();
     sAnimation();
+    sLifeSpan();
     sRender();
 }
