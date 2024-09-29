@@ -5,7 +5,7 @@ class Scene_InGame : public Scene
 {
     struct PlayerConfig
     {
-        float X, Y, CX, CY, SPEED, MAXSPEED, JUMP, GRAVITY;
+        float X, Y, CX, CY, SPEED, MAXSPEED, JUMP, GRAVITY, BULLETS, BULLETL, BULLETA;
         std::string WEAPON;
     };
 
@@ -32,6 +32,7 @@ protected:
     void sGravity();
     void sCollision();
     void sLifeSpan();
+    void spawnBullet();
     void animationDirection();
     bool inTheAir();
     Vec2 gridToPixel(const Vec2 &gPos, std::shared_ptr<Entity> e);

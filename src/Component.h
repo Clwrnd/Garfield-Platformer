@@ -15,6 +15,7 @@ public:
     Vec2 pos = {0, 0};
     Vec2 previousPos = {0, 0};
     Vec2 speed = {0, 0};
+    float angle = 0;
 
     CTransform() {};
     CTransform(const Vec2 &posVar)
@@ -23,6 +24,10 @@ public:
     }
     CTransform(const Vec2 &posVar, const Vec2 &speedVar)
         : pos(posVar), speed(speedVar), previousPos(posVar)
+    {
+    }
+    CTransform(const Vec2 &posVar, const Vec2 &speedVar, float angVar)
+        : pos(posVar), speed(speedVar), previousPos(posVar), angle(angVar)
     {
     }
 };

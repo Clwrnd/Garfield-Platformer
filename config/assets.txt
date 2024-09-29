@@ -13,6 +13,7 @@ Texture idleGar40_50 ../../images/garIdle40_50.png
 Texture tubeCusGar ../../images/tubeCs.png
 Texture jumpGar ../../images/JUMPgar.png
 Texture explosion ../../images/explosion.png
+Texture bullet ../../images/bulletLas.png
 Animation staticGarMenuAn staticGarMenu 1 0
 Animation menuGarAn menuGarTex 2 30
 Animation Wall wall64 1 0
@@ -22,6 +23,7 @@ Animation idleGar idleGar40_50 4 25
 Animation JumpGar jumpGar 4 10
 Animation Tube tubeCusGar 1 0 
 Animation Explosion explosion 7 5 
+Animation bullet bullet 1 0
 
 
 

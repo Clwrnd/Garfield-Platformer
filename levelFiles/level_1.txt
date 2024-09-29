@@ -51,6 +51,6 @@ Tile Floor 7 4
 Tile Floor 5 7
 Tile Floor 6 7   
 Tile Tube 14 2
-Player 20 10 40 50 5 10.5 5 0.4 bullet
+Player 0 10 40 50 5 10.5 30 0.4 bullet 10 60 1
 
 

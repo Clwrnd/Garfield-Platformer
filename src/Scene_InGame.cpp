@@ -24,6 +24,7 @@ void Scene_InGame::init()
     registerAction(sf::Keyboard::Scan::Scancode::C, "DSPCB");
     registerAction(sf::Keyboard::Scan::Scancode::T, "DSPTEXT");
     registerAction(sf::Keyboard::Scan::Scancode::Escape, "QUIT");
+    registerAction(sf::Keyboard::Scan::Scancode::Space, "FIRE");
 
     griTtext.setFont(game_engine->getAssets().getFont("Arial"));
     griTtext.setCharacterSize(10);
@@ -82,6 +83,9 @@ void Scene_InGame::loadLevel(const std::string &filename)
             plConfig.MAXSPEED = std::stof(paramVec.at(7));
             plConfig.GRAVITY = std::stof(paramVec.at(8));
             plConfig.WEAPON = paramVec.at(9);
+            plConfig.BULLETS = std::stof(paramVec.at(10));
+            plConfig.BULLETL = std::stof(paramVec.at(11));
+            plConfig.BULLETA = std::stof(paramVec.at(12));
         }
     }
 }
@@ -107,7 +111,10 @@ Vec2 Scene_InGame::gridToPixel(const Vec2 &gPos, std::shared_ptr<Entity> e)
 
 void Scene_InGame::sGravity()
 {
-    player->getComponent<CTransform>().speed.y += player->getComponent<CGravity>().strenght;
+    if (std::abs(player->getComponent<CTransform>().speed.y + player->getComponent<CGravity>().strenght) < plConfig.MAXSPEED)
+    {
+        player->getComponent<CTransform>().speed.y += player->getComponent<CGravity>().strenght;
+    }
 }
 
 void Scene_InGame::sDoAction(const Action &action)
@@ -148,6 +155,10 @@ void Scene_InGame::sDoAction(const Action &action)
             view.setCenter(game_engine->getWindow().getSize().x / 2.0f, game_engine->getWindow().getSize().y / 2.0f);
             game_engine->getWindow().setView(view);
             game_engine->changeScene("menu", true);
+        }
+        else if (action.getName() == "FIRE")
+        {
+            spawnBullet();
         }
     }
     else
@@ -236,6 +247,7 @@ void Scene_InGame::sAnimation()
     {
         if (e->hasComponent<CAnimation>())
         {
+            e->getComponent<CAnimation>().animation.getSprite().rotate(e->getComponent<CTransform>().angle);
             e->getComponent<CAnimation>().animation.getSprite().setPosition(e->getComponent<CTransform>().pos.x, e->getComponent<CTransform>().pos.y);
             e->getComponent<CAnimation>().animation.update();
         }
@@ -252,10 +264,20 @@ void Scene_InGame::sLifeSpan()
     {
         if (e->hasComponent<CAnimation>() && e->getComponent<CAnimation>().animation.hasEndend() && !e->getComponent<CAnimation>().animation.isRepeating())
         {
-
             e->destroy();
         }
     }
+}
+
+void Scene_InGame::spawnBullet()
+{
+    auto e = entities.addEntity("bullet");
+    e->addComponent<CAnimation>(game_engine->getAssets().getAnimation(plConfig.WEAPON));
+    Vec2 pos{player->getComponent<CTransform>().pos.x, player->getComponent<CTransform>().pos.y};
+
+    Vec2 spe{plConfig.BULLETS * player->getComponent<CAnimation>().animation.getSprite().getScale().x, 0};
+    e->addComponent<CTransform>(pos, spe, plConfig.BULLETA);
+    e->addComponent<CLifespan>(plConfig.BULLETL, plConfig.BULLETL);
 }
 
 void Scene_InGame::sMovement()
@@ -268,13 +290,18 @@ void Scene_InGame::sMovement()
     {
         player->getComponent<CTransform>().pos.x += player->getComponent<CTransform>().speed.x;
     }
-    if (player->getComponent<CInput>().left)
+    if (player->getComponent<CInput>().left && player->getComponent<CTransform>().pos.x - player->getComponent<CTransform>().speed.x > 0)
     {
         player->getComponent<CTransform>().pos.x -= player->getComponent<CTransform>().speed.x;
     }
     if (player->getComponent<CInput>().up)
     {
         player->getComponent<CTransform>().pos.y += player->getComponent<CTransform>().speed.y;
+    }
+
+    for (auto e : entities.getEntities("bullet"))
+    {
+        e->getComponent<CTransform>().pos.x += e->getComponent<CTransform>().speed.x;
     }
 }
 
@@ -322,6 +349,10 @@ void Scene_InGame::sCollision()
                 e->getComponent<CAnimation>().animation.mmkNonRepeating();
             }
         }
+        for (auto b : entities.getEntities("bullet"))
+        {
+            Vec2 ovV = Physics::getOverlap(b, e);
+        }
     }
 }
 
@@ -331,7 +362,16 @@ void Scene_InGame::animationDirection()
 
     if (player->getComponent<CMovement>().isJumping && !player->getComponent<CMovement>().wasJumping)
     {
-        player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("JumpGar"));
+
+        if (player->getComponent<CAnimation>().animation.getSprite().getScale().x == -1)
+        {
+            player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("JumpGar"));
+            player->getComponent<CAnimation>().animation.getSprite().setScale(-1, 1);
+        }
+        else
+        {
+            player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("JumpGar"));
+        }
     }
     if (!player->getComponent<CMovement>().isJumping && player->getComponent<CMovement>().wasJumping)
     {
@@ -375,6 +415,10 @@ void Scene_InGame::animationDirection()
         (player->getComponent<CMovement>().wasLeft || player->getComponent<CMovement>().wasRight || player->getComponent<CMovement>().wasJumping))
     {
         player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("idleGar"));
+        if (player->getComponent<CMovement>().wasLeft)
+            player->getComponent<CAnimation>().animation.getSprite().setScale(-1, 1);
+        if (player->getComponent<CMovement>().wasRight)
+            player->getComponent<CAnimation>().animation.getSprite().setScale(1, 1);
     }
     if (player->getComponent<CMovement>().isLeft && player->getComponent<CMovement>().isRight && (!player->getComponent<CMovement>().wasLeft || !player->getComponent<CMovement>().wasRight) && !player->getComponent<CMovement>().isJumping)
     {
@@ -400,7 +444,7 @@ bool Scene_InGame::inTheAir()
     for (auto e : entities.getEntities("Tile"))
     {
         if (e->getComponent<CTransform>().pos.y - e->getComponent<CBoundingBox>().height / 2 == player->getComponent<CTransform>().pos.y + player->getComponent<CBoundingBox>().height / 2 &&
-            e->getComponent<CTransform>().pos.x - e->getComponent<CBoundingBox>().width / 2 <= player->getComponent<CTransform>().pos.x && e->getComponent<CTransform>().pos.x + e->getComponent<CBoundingBox>().width / 2 >= player->getComponent<CTransform>().pos.x)
+            e->getComponent<CTransform>().pos.x - (e->getComponent<CBoundingBox>().width / 2 + player->getComponent<CBoundingBox>().width) <= player->getComponent<CTransform>().pos.x && e->getComponent<CTransform>().pos.x + e->getComponent<CBoundingBox>().width / 2 + player->getComponent<CBoundingBox>().width >= player->getComponent<CTransform>().pos.x)
         {
             player->getComponent<CMovement>().isJumping = false;
             toReturn = false;
