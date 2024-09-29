@@ -387,7 +387,15 @@ void Scene_InGame::animationDirection()
         }
         else
         {
-            player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("idleGar"));
+            if (player->getComponent<CAnimation>().animation.getSprite().getScale().x == -1)
+            {
+                player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("idleGar"));
+                player->getComponent<CAnimation>().animation.getSprite().setScale(-1, 1);
+            }
+            else
+            {
+                player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("idleGar"));
+            }
         }
     }
     if (player->getComponent<CMovement>().isJumping && player->getComponent<CMovement>().wasJumping)
@@ -414,11 +422,17 @@ void Scene_InGame::animationDirection()
     if (!player->getComponent<CMovement>().isLeft && !player->getComponent<CMovement>().isRight && !player->getComponent<CMovement>().isJumping &&
         (player->getComponent<CMovement>().wasLeft || player->getComponent<CMovement>().wasRight || player->getComponent<CMovement>().wasJumping))
     {
-        player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("idleGar"));
+
         if (player->getComponent<CMovement>().wasLeft)
+        {
+            player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("idleGar"));
             player->getComponent<CAnimation>().animation.getSprite().setScale(-1, 1);
+        }
         if (player->getComponent<CMovement>().wasRight)
+        {
+            player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("idleGar"));
             player->getComponent<CAnimation>().animation.getSprite().setScale(1, 1);
+        }
     }
     if (player->getComponent<CMovement>().isLeft && player->getComponent<CMovement>().isRight && (!player->getComponent<CMovement>().wasLeft || !player->getComponent<CMovement>().wasRight) && !player->getComponent<CMovement>().isJumping)
     {
