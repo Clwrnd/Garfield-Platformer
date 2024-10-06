@@ -70,6 +70,7 @@ void Scene_InGame::loadLevel(const std::string &filename)
             {
                 e->addComponent<CBoundingBox>(e->getComponent<CAnimation>().animation.getSprite().getTextureRect().getSize().x,
                                               e->getComponent<CAnimation>().animation.getSprite().getTextureRect().getSize().y);
+                e->addComponent<CDestructable>(std::stoi(paramVec.at(4)));
             }
         }
         else if (typeS == "Player")
@@ -267,6 +268,14 @@ void Scene_InGame::sLifeSpan()
             e->destroy();
         }
     }
+    for (auto e : entities.getEntities("bullet"))
+    {
+        e->getComponent<CLifespan>().remaining--;
+        if (e->getComponent<CLifespan>().remaining == 0)
+        {
+            e->destroy();
+        }
+    }
 }
 
 void Scene_InGame::spawnBullet()
@@ -344,14 +353,28 @@ void Scene_InGame::sCollision()
             {
                 player->getComponent<CTransform>().speed.y = 0;
                 player->getComponent<CTransform>().pos.y += ovV.y;
-                e->removeComponent<CBoundingBox>();
-                e->addComponent<CAnimation>(game_engine->getAssets().getAnimation("Explosion"));
-                e->getComponent<CAnimation>().animation.mmkNonRepeating();
+                if (e->getComponent<CDestructable>().isDestructable)
+                {
+                    e->removeComponent<CBoundingBox>();
+                    e->addComponent<CAnimation>(game_engine->getAssets().getAnimation("Explosion"));
+                    e->getComponent<CAnimation>().animation.mmkNonRepeating();
+                }
             }
         }
-        for (auto b : entities.getEntities("bullet"))
+
+        for (auto bullet : entities.getEntities("bullet"))
         {
-            Vec2 ovV = Physics::getOverlap(b, e);
+            if (Physics::getOverlap(bullet, e).isPositiv())
+            {
+                if (e->getComponent<CDestructable>().isDestructable)
+                {
+                    e->removeComponent<CBoundingBox>();
+                    e->addComponent<CAnimation>(game_engine->getAssets().getAnimation("Explosion"));
+                    e->getComponent<CAnimation>().animation.mmkNonRepeating();
+                }
+
+                bullet->destroy();
+            }
         }
     }
 }

@@ -116,3 +116,14 @@ class CState : public Component
 public:
     CState() {}
 };
+
+class CDestructable : public Component
+{
+public:
+    bool isDestructable = false;
+    CDestructable() {};
+    CDestructable(bool isDes)
+        : isDestructable(isDes)
+    {
+    }
+};

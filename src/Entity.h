@@ -13,7 +13,8 @@ typedef std::tuple<
     CAnimation,
     CGravity,
     CState,
-    CMovement>
+    CMovement,
+    CDestructable>
     ComponentTuple;
 
 class Entity

@@ -21,36 +21,36 @@ Dec Floor 19 0
 Dec Floor 20 0
 Dec Floor 21 0
 Dec Floor 22 0
-Tile Floor 0 1
-Tile Floor 1 1
-Tile Floor 2 1
-Tile Floor 3 1
-Tile Floor 4 1
-Tile Floor 5 1
-Tile Floor 6 1
-Tile Floor 7 1
-Tile Floor 8 1
-Tile Floor 9 1
-Tile Floor 10 1
-Tile Floor 11 1
-Tile Floor 12 1
-Tile Floor 13 1
-Tile Floor 14 1
-Tile Floor 15 1
-Tile Floor 16 1
-Tile Floor 17 1
-Tile Floor 18 1
-Tile Floor 19 1
-Tile Floor 20 1
-Tile Floor 21 1
-Tile Floor 22 1
-Tile Floor 4 4
-Tile Floor 5 4
-Tile Floor 6 4
-Tile Floor 7 4
-Tile Floor 5 7
-Tile Floor 6 7   
-Tile Tube 14 2
+Tile Floor 0 1 0
+Tile Floor 1 1 0
+Tile Floor 2 1 0
+Tile Floor 3 1 0
+Tile Floor 4 1 0
+Tile Floor 5 1 0
+Tile Floor 6 1 0
+Tile Floor 7 1 0
+Tile Floor 8 1 0
+Tile Floor 9 1 0
+Tile Floor 10 1 0
+Tile Floor 11 1 0
+Tile Floor 12 1 0
+Tile Floor 13 1 0
+Tile Floor 14 1 0
+Tile Floor 15 1 0
+Tile Floor 16 1 0
+Tile Floor 17 1 0
+Tile Floor 18 1 0
+Tile Floor 19 1 0
+Tile Floor 20 1 0
+Tile Floor 21 1 0
+Tile Floor 22 1 0
+Tile Floor 4 4 1 
+Tile Floor 5 4 1
+Tile Floor 6 4 1
+Tile Floor 7 4 1
+Tile Floor 5 7 1
+Tile Floor 6 7 1  
+Tile Tube 14 2 0
 Player 0 10 40 50 5 10.5 30 0.4 bullet 10 60 1
 
 
