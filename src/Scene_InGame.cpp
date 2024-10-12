@@ -25,6 +25,7 @@ void Scene_InGame::init()
     registerAction(sf::Keyboard::Scan::Scancode::T, "DSPTEXT");
     registerAction(sf::Keyboard::Scan::Scancode::Escape, "QUIT");
     registerAction(sf::Keyboard::Scan::Scancode::Space, "FIRE");
+    registerAction(sf::Keyboard::Scan::Scancode::P, "PAUSE");
 
     griTtext.setFont(game_engine->getAssets().getFont("Arial"));
     griTtext.setCharacterSize(10);
@@ -161,6 +162,10 @@ void Scene_InGame::sDoAction(const Action &action)
         {
             spawnBullet();
         }
+        else if (action.getName() == "PAUSE")
+        {
+            paused = !paused;
+        }
     }
     else
     {
@@ -287,6 +292,8 @@ void Scene_InGame::spawnBullet()
     Vec2 spe{plConfig.BULLETS * player->getComponent<CAnimation>().animation.getSprite().getScale().x, 0};
     e->addComponent<CTransform>(pos, spe, plConfig.BULLETA);
     e->addComponent<CLifespan>(plConfig.BULLETL, plConfig.BULLETL);
+    e->addComponent<CBoundingBox>(e->getComponent<CAnimation>().animation.getSprite().getTextureRect().getSize().x,
+                                  e->getComponent<CAnimation>().animation.getSprite().getTextureRect().getSize().y);
 }
 
 void Scene_InGame::sMovement()
@@ -496,12 +503,19 @@ void Scene_InGame::onEnd()
 
 void Scene_InGame::update()
 {
-    entities.update();
-    sGravity();
-    sMovement();
-    sCollision();
-    sBoundingBox();
-    sAnimation();
-    sLifeSpan();
-    sRender();
+    if (!paused)
+    {
+        entities.update();
+        sGravity();
+        sMovement();
+        sCollision();
+        sBoundingBox();
+        sAnimation();
+        sLifeSpan();
+        sRender();
+    }
+    else
+    {
+        sRender();
+    }
 }

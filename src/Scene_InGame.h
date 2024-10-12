@@ -16,6 +16,7 @@ protected:
     bool drawTextures = true;
     bool drawGrid = false;
     bool drawBoundingBox = false;
+    bool paused = false;
     const Vec2 gridSize = Vec2{64, 64};
     sf::Text griTtext;
     float t = 500;
