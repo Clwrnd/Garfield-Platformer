@@ -45,7 +45,7 @@ Tile Floor 20 1 0
 Tile Floor 21 1 0
 Tile Floor 22 1 0
 Tile Floor 4 4 1 
-Tile Floor 5 4 1
+Tile QtileAA 5 4 0
 Tile Floor 6 4 1
 Tile Floor 7 4 1
 Tile Floor 5 7 1

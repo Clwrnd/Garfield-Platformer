@@ -72,6 +72,10 @@ void Scene_InGame::loadLevel(const std::string &filename)
                 e->addComponent<CBoundingBox>(e->getComponent<CAnimation>().animation.getSprite().getTextureRect().getSize().x,
                                               e->getComponent<CAnimation>().animation.getSprite().getTextureRect().getSize().y);
                 e->addComponent<CDestructable>(std::stoi(paramVec.at(4)));
+                if (paramVec.at(1) == "QtileAA")
+                {
+                    // A compléter
+                }
             }
         }
         else if (typeS == "Player")
@@ -106,8 +110,8 @@ void Scene_InGame::spwanPlayer()
 
 Vec2 Scene_InGame::gridToPixel(const Vec2 &gPos, std::shared_ptr<Entity> e)
 {
-    float x = gPos.x * gridSize.x + e->getComponent<CAnimation>().animation.getSprite().getTexture()->getSize().x / 2;
-    float y = height() - gPos.y * gridSize.y - e->getComponent<CAnimation>().animation.getSprite().getTexture()->getSize().y / 2;
+    float x = gPos.x * gridSize.x + e->getComponent<CAnimation>().animation.getSprite().getTextureRect().width / 2;
+    float y = height() - gPos.y * gridSize.y - e->getComponent<CAnimation>().animation.getSprite().getTextureRect().height / 2;
     return Vec2(x, y);
 }
 
@@ -365,6 +369,10 @@ void Scene_InGame::sCollision()
                     e->removeComponent<CBoundingBox>();
                     e->addComponent<CAnimation>(game_engine->getAssets().getAnimation("Explosion"));
                     e->getComponent<CAnimation>().animation.mmkNonRepeating();
+                }
+                else if (true)
+                {
+                    // A compléter
                 }
             }
         }

@@ -14,6 +14,8 @@ Texture tubeCusGar ../../images/tubeCs.png
 Texture jumpGar ../../images/JUMPgar.png
 Texture explosion ../../images/explosion.png
 Texture bullet ../../images/bulletLas.png
+Texture QtileA ../../images/Qtiles64A.png
+Texture QtileD ../../images/Qtiles64D.png
 Animation staticGarMenuAn staticGarMenu 1 0
 Animation menuGarAn menuGarTex 2 30
 Animation Wall wall64 1 0
@@ -24,7 +26,8 @@ Animation JumpGar jumpGar 4 10
 Animation Tube tubeCusGar 1 0 
 Animation Explosion explosion 7 5 
 Animation bullet bullet 1 0
-
+Animation QtileAA QtileA 2 20
+Animation QtileDA QtileD 1 0
 
 
 
