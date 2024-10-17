@@ -121,6 +121,7 @@ class CDestructable : public Component
 {
 public:
     bool isDestructable = false;
+    bool isQT = false;
     CDestructable() {};
     CDestructable(bool isDes)
         : isDestructable(isDes)

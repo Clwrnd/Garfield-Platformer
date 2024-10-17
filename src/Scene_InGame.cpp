@@ -74,7 +74,7 @@ void Scene_InGame::loadLevel(const std::string &filename)
                 e->addComponent<CDestructable>(std::stoi(paramVec.at(4)));
                 if (paramVec.at(1) == "QtileAA")
                 {
-                    // A compléter
+                    e->getComponent<CDestructable>().isQT = true;
                 }
             }
         }
@@ -370,9 +370,9 @@ void Scene_InGame::sCollision()
                     e->addComponent<CAnimation>(game_engine->getAssets().getAnimation("Explosion"));
                     e->getComponent<CAnimation>().animation.mmkNonRepeating();
                 }
-                else if (true)
+                else if (e->getComponent<CDestructable>().isQT)
                 {
-                    // A compléter
+                    e->addComponent<CAnimation>(game_engine->getAssets().getAnimation("QtileDA"));
                 }
             }
         }
