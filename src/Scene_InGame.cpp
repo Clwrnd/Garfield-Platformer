@@ -285,6 +285,13 @@ void Scene_InGame::sLifeSpan()
             e->destroy();
         }
     }
+    for (auto e : entities.getEntities("Coin"))
+    {
+        if (e->hasComponent<CAnimation>() && e->getComponent<CAnimation>().animation.hasEndend() && !e->getComponent<CAnimation>().animation.isRepeating())
+        {
+            e->destroy();
+        }
+    }
 }
 
 void Scene_InGame::spawnBullet()
@@ -373,6 +380,7 @@ void Scene_InGame::sCollision()
                 else if (e->getComponent<CDestructable>().isQT)
                 {
                     e->addComponent<CAnimation>(game_engine->getAssets().getAnimation("QtileDA"));
+                    QtAnimationSetUp(e);
                 }
             }
         }
@@ -391,6 +399,12 @@ void Scene_InGame::sCollision()
                 bullet->destroy();
             }
         }
+    }
+
+    if (player->getComponent<CTransform>().pos.y > game_engine->getWindow().getSize().y - 32)
+    {
+        player->getComponent<CTransform>().pos = Vec2{plConfig.CX, plConfig.CY};
+        game_engine->changeScene("gameplay", std::make_shared<Scene_InGame>(levelPath, game_engine), true);
     }
 }
 
@@ -486,6 +500,15 @@ void Scene_InGame::animationDirection()
         player->addComponent<CAnimation>(game_engine->getAssets().getAnimation("JumpGar"));
         player->getComponent<CAnimation>().animation.getSprite().setScale(1, 1);
     }
+}
+
+void Scene_InGame::QtAnimationSetUp(std::shared_ptr<Entity> e)
+{
+    auto coin = entities.addEntity("Coin");
+    coin->addComponent<CAnimation>(game_engine->getAssets().getAnimation("LasagnaCoinA"));
+    coin->addComponent<CTransform>(Vec2(e->getComponent<CTransform>().pos.x, e->getComponent<CTransform>().pos.y - 50));
+    coin->getComponent<CAnimation>().animation.mmkNonRepeating();
+    e->getComponent<CDestructable>().isQT = false;
 }
 
 bool Scene_InGame::inTheAir()

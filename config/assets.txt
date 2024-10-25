@@ -29,7 +29,8 @@ Animation Explosion explosion 7 5
 Animation bullet bullet 1 0
 Animation QtileAA QtileA 2 20
 Animation QtileDA QtileD 1 0
-Animation LasagnaCoinA LasagnaCoin 7 5 
+Animation LasagnaCoinA LasagnaCoin 7 6
+
 
 
 

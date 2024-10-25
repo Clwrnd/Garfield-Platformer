@@ -35,6 +35,7 @@ protected:
     void sLifeSpan();
     void spawnBullet();
     void animationDirection();
+    void QtAnimationSetUp(std::shared_ptr<Entity> e);
     bool inTheAir();
     Vec2 gridToPixel(const Vec2 &gPos, std::shared_ptr<Entity> e);
 
