@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <ctime>
 
 #include <sstream>
 #include <fstream>
@@ -32,6 +33,22 @@ void Scene_InGame::init()
 
     loadLevel(levelPath);
     spwanPlayer();
+    initTimer();
+}
+
+void Scene_InGame::initTimer()
+{
+    time_ref = std::clock();
+    timeString.setCharacterSize(20);
+    timeString.setFont(game_engine->getAssets().getFont("GarfieldSans"));
+    timeString.setString("00:00");
+    timeString.setPosition(5, 5);
+}
+
+void Scene_InGame::updateTimer()
+{
+    long time = long(float(std::clock() - time_ref) / CLOCKS_PER_SEC * 1000);
+    timeString.setString(std::to_string(time / 60000) + ":" + std::to_string((time / 1000) % 60) + ":" + std::to_string(time % 1000));
 }
 
 void Scene_InGame::loadLevel(const std::string &filename)
@@ -201,6 +218,9 @@ void Scene_InGame::sRender()
     sf::View view = game_engine->getWindow().getView();
     view.setCenter(windowCenterX, game_engine->getWindow().getSize().y - view.getCenter().y);
     game_engine->getWindow().setView(view);
+
+    timeString.setPosition(game_engine->getWindow().getView().getCenter().x - game_engine->getWindow().getView().getSize().x / 2 + 5, 5);
+    game_engine->getWindow().draw(timeString);
 
     if (drawTextures)
     {
@@ -543,6 +563,7 @@ void Scene_InGame::update()
         sBoundingBox();
         sAnimation();
         sLifeSpan();
+        updateTimer();
         sRender();
     }
     else

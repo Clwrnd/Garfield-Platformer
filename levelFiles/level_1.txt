@@ -21,6 +21,29 @@ Dec Floor 19 0
 Dec Floor 20 0
 Dec Floor 21 0
 Dec Floor 22 0
+Dec Floor 23 0
+Dec Floor 24 0
+Dec Floor 25 0
+Dec Floor 26 0
+Dec Floor 27 0
+Dec Floor 28 0
+Dec Floor 29 0
+Dec Floor 30 0
+Dec Floor 31 0
+Dec Floor 32 0
+Dec Floor 33 0
+Dec Floor 34 0
+Dec Floor 35 0
+Dec Floor 36 0
+Dec Floor 37 0
+Dec Floor 38 0
+Dec Floor 39 0
+Dec Floor 40 0
+Dec Floor 41 0
+Dec Floor 42 0
+Dec Floor 43 0
+Dec Floor 44 0
+Dec Floor 45 0
 Tile Floor 0 1 0
 Tile Floor 1 1 0
 Tile Floor 2 1 0
@@ -44,6 +67,29 @@ Tile Floor 19 1 0
 Tile Floor 20 1 0
 Tile Floor 21 1 0
 Tile Floor 22 1 0
+Tile Floor 23 1 0
+Tile Floor 24 1 0
+Tile Floor 25 1 0
+Tile Floor 26 1 0
+Tile Floor 27 1 0
+Tile Floor 28 1 0
+Tile Floor 29 1 0
+Tile Floor 30 1 0
+Tile Floor 31 1 0
+Tile Floor 32 1 0
+Tile Floor 33 1 0
+Tile Floor 34 1 0
+Tile Floor 35 1 0
+Tile Floor 36 1 0
+Tile Floor 37 1 0
+Tile Floor 38 1 0
+Tile Floor 39 1 0
+Tile Floor 40 1 0
+Tile Floor 41 1 0
+Tile Floor 42 1 0
+Tile Floor 43 1 0
+Tile Floor 44 1 0
+Tile Floor 45 1 0
 Tile Floor 4 4 1 
 Tile QtileAA 5 4 0
 Tile Floor 6 4 1
