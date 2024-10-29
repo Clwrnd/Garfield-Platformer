@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include <SFML/Audio.hpp>
 
 class Scene_InGame : public Scene
 {
@@ -21,6 +22,7 @@ protected:
     sf::Text griTtext;
     sf::Text timeString;
     sf::Text coinCout;
+    sf::Sound soundEffects;
     std::clock_t time_ref;
     unsigned char coin_count = 0;
 

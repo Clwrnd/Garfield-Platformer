@@ -403,6 +403,8 @@ void Scene_InGame::sCollision()
                 if (e->getComponent<CDestructable>().isDestructable)
                 {
                     e->removeComponent<CBoundingBox>();
+                    soundEffects.setBuffer(game_engine->getAssets().getSoundBuffer("destroyBlock"));
+                    soundEffects.play();
                     e->addComponent<CAnimation>(game_engine->getAssets().getAnimation("Explosion"));
                     e->getComponent<CAnimation>().animation.mmkNonRepeating();
                 }
@@ -411,6 +413,8 @@ void Scene_InGame::sCollision()
                     e->addComponent<CAnimation>(game_engine->getAssets().getAnimation("QtileDA"));
                     coin_count++;
                     coinCout.setString("Lasagna: " + std::to_string(coin_count));
+                    soundEffects.setBuffer(game_engine->getAssets().getSoundBuffer("coolSel"));
+                    soundEffects.play();
                     QtAnimationSetUp(e);
                 }
             }
@@ -423,6 +427,8 @@ void Scene_InGame::sCollision()
                 if (e->getComponent<CDestructable>().isDestructable)
                 {
                     e->removeComponent<CBoundingBox>();
+                    soundEffects.setBuffer(game_engine->getAssets().getSoundBuffer("destroyBlock"));
+                    soundEffects.play();
                     e->addComponent<CAnimation>(game_engine->getAssets().getAnimation("Explosion"));
                     e->getComponent<CAnimation>().animation.mmkNonRepeating();
                 }

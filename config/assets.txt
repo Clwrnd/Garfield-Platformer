@@ -4,6 +4,7 @@ Font Arial ../../fonts/Arialn.ttf
 Sound coolSel ../../sound/cool.mp3
 Sound MenuChanging ../../sound/menuSel.wav
 Sound ambientSound ../../sound/iFeelGood.wav
+Sound destroyBlock ../../sound/destryBlock.mp3
 Texture menuGarTex ../../images/inMenu.png
 Texture staticGarMenu ../../images/garfieldStaticMenu.png
 Texture floor64 ../../images/block64.png
