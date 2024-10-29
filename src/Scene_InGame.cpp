@@ -33,16 +33,22 @@ void Scene_InGame::init()
 
     loadLevel(levelPath);
     spwanPlayer();
-    initTimer();
+    initTimerCcount();
 }
 
-void Scene_InGame::initTimer()
+void Scene_InGame::initTimerCcount()
 {
     time_ref = std::clock();
     timeString.setCharacterSize(20);
     timeString.setFont(game_engine->getAssets().getFont("GarfieldSans"));
     timeString.setString("00:00");
     timeString.setPosition(5, 5);
+
+    coinCout.setCharacterSize(20);
+    coinCout.setFillColor(sf::Color(240, 107, 50));
+    coinCout.setFont(game_engine->getAssets().getFont("GarfieldSans"));
+    coinCout.setString("Lasagna: " + std::to_string(coin_count));
+    coinCout.setPosition(5, 20);
 }
 
 void Scene_InGame::updateTimer()
@@ -222,6 +228,9 @@ void Scene_InGame::sRender()
     timeString.setPosition(game_engine->getWindow().getView().getCenter().x - game_engine->getWindow().getView().getSize().x / 2 + 5, 5);
     game_engine->getWindow().draw(timeString);
 
+    coinCout.setPosition(game_engine->getWindow().getView().getCenter().x - game_engine->getWindow().getView().getSize().x / 2 + 5, 30);
+    game_engine->getWindow().draw(coinCout);
+
     if (drawTextures)
     {
         for (auto e : entities.getEntities())
@@ -400,6 +409,8 @@ void Scene_InGame::sCollision()
                 else if (e->getComponent<CDestructable>().isQT)
                 {
                     e->addComponent<CAnimation>(game_engine->getAssets().getAnimation("QtileDA"));
+                    coin_count++;
+                    coinCout.setString("Lasagna: " + std::to_string(coin_count));
                     QtAnimationSetUp(e);
                 }
             }

@@ -20,7 +20,9 @@ protected:
     const Vec2 gridSize = Vec2{64, 64};
     sf::Text griTtext;
     sf::Text timeString;
+    sf::Text coinCout;
     std::clock_t time_ref;
+    unsigned char coin_count = 0;
 
     void init();
 
@@ -37,7 +39,7 @@ protected:
     void spawnBullet();
     void animationDirection();
     void QtAnimationSetUp(std::shared_ptr<Entity> e);
-    void initTimer();
+    void initTimerCcount();
     void updateTimer();
     bool inTheAir();
     Vec2 gridToPixel(const Vec2 &gPos, std::shared_ptr<Entity> e);
