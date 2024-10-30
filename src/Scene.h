@@ -16,6 +16,7 @@ protected:
     size_t current_frame = 0;
     bool paused = false;
     bool hasEnded = false;
+    const bool isAreplay = false;
 
     virtual void onEnd() = 0;
     void setPaused(bool paused);
@@ -23,6 +24,7 @@ protected:
 public:
     Scene();
     Scene(GameEngine *g);
+    Scene(GameEngine *g, bool isAr);
 
     virtual void update() = 0;
     virtual void sDoAction(const Action &action) = 0;
@@ -39,4 +41,6 @@ public:
     bool getHasEnded() const;
     const ActionMap &getActionMap() const;
     void drawLine(const Vec2 &p1, const Vec2 &p2);
+
+    const bool isAReplay() const;
 };

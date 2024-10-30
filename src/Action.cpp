@@ -22,6 +22,11 @@ const std::string &Action::getType() const
     return type;
 }
 
+const unsigned long &Action::getFrame() const
+{
+    return frame;
+}
+
 std::string Action::toString() const
 {
     return "Nature de l'action: " + name;

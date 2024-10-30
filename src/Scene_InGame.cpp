@@ -11,7 +11,7 @@
 #include "GameEngine.h"
 
 Scene_InGame::Scene_InGame(const std::string &levelPathVar, GameEngine *gameEngine, bool isRpl)
-    : Scene(gameEngine), levelPath(levelPathVar), isAreplay(isRpl)
+    : Scene(gameEngine, isRpl), levelPath(levelPathVar)
 {
     init();
 }
@@ -60,14 +60,12 @@ void Scene_InGame::updateTimer()
 
 void Scene_InGame::createFileReplay()
 {
-    isAreplay = true;
-    if (isAreplay)
+    if (!isAreplay)
     {
         for (size_t i = 0; i < 1000; i++)
         {
             std::ifstream file;
             file.open("../../replays/replay" + std::to_string(i) + ".txt");
-            std::cout << file.is_open();
             if (!file)
             {
                 replayFile.open("../../replays/replay" + std::to_string(i) + ".txt");

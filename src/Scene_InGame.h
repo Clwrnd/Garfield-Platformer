@@ -22,7 +22,6 @@ protected:
     bool drawGrid = false;
     bool drawBoundingBox = false;
     bool paused = false;
-    bool isAreplay = false;
     const Vec2 gridSize = Vec2{64, 64};
     sf::Text griTtext;
     sf::Text timeString;

@@ -10,6 +10,10 @@ Scene::Scene(GameEngine *g)
     : game_engine(g)
 {
 }
+Scene::Scene(GameEngine *g, bool isAr)
+    : game_engine(g), isAreplay(isAr)
+{
+}
 const ActionMap &Scene::getActionMap() const
 {
     return actionMap;
@@ -35,6 +39,11 @@ size_t Scene::height() const
     return game_engine->getWindow().getSize().y;
 }
 
+size_t Scene::getCurrentFrame() const
+{
+    return current_frame;
+}
+
 void Scene::doAction(const Action &action)
 {
     sDoAction(action);
@@ -47,4 +56,9 @@ void Scene::drawLine(const Vec2 &p1, const Vec2 &p2)
     rect.setPosition(sf::Vector2f(p1.x, p1.y));
     rect.setSize(sf::Vector2f(p2.x, p2.y));
     game_engine->getWindow().draw(rect);
+}
+
+const bool Scene::isAReplay() const
+{
+    return isAreplay;
 }

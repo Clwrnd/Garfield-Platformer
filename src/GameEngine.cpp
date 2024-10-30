@@ -3,7 +3,10 @@
 #include <sstream>
 #include <fstream>
 
+#include <iostream>
+
 #include "Scene_Menu.h"
+#include "Scene_InGame.h"
 
 GameEngine::GameEngine(const std::string &config)
 {
@@ -188,9 +191,9 @@ void GameEngine::sUserInput()
     }
 }
 
-void GameEngine::loadReplay(std::string &replayFilePath)
+void GameEngine::loadReplay(const std::string &replayFilePath)
 {
-    /*std::ifstream replayFile;
+    std::ifstream replayFile;
     replayFile.open(replayFilePath);
 
     std::string line;
@@ -202,16 +205,39 @@ void GameEngine::loadReplay(std::string &replayFilePath)
     while (std::getline(replayFile, line))
     {
         std::stringstream ssline(line);
-        ssline >> f >> type >> name;
-        replayActions.emplace_back(f, type, name);
+        std::vector<std::string> pars;
+        while (std::getline(ssline, param, ';'))
+        {
+            pars.emplace_back(param);
+        }
+        replayActions.push_back(Action(pars.at(2), pars.at(1), std::stoi(pars.at(0))));
     }
-    replayFile.close();*/
+    replayFile.close();
+
+    changeScene("gameplay", std::make_shared<Scene_InGame>("../../levelFiles/level_1.txt", this, true));
+    playReplay();
+}
+
+void GameEngine::playReplay()
+{
+
+    if (getCurrent_Scene()->isAReplay())
+    {
+        std::cout << replayActions.front().getFrame();
+        if (replayActions.front().getFrame() == getCurrent_Scene()->getCurrentFrame())
+        {
+            std::cout << "ok";
+            getCurrent_Scene()->doAction(replayActions.front());
+            replayActions.erase(replayActions.begin());
+        }
+    }
 }
 
 void GameEngine::run()
 {
     while (isRunning())
     {
+        playReplay();
         update();
     }
 }

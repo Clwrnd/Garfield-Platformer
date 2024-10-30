@@ -132,7 +132,8 @@ void Scene_Menu::onEnd()
     }
     if (selectedMenuIndex == 2)
     {
-        }
+        game_engine->loadReplay("../../replays/replay0.txt");
+    }
     else
     {
         sf::Sound s(game_engine->getAssets().getSoundBuffer("coolSel"));

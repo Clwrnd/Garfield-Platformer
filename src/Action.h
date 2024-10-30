@@ -16,5 +16,6 @@ public:
 
     const std::string &getName() const;
     const std::string &getType() const;
+    const unsigned long &getFrame() const;
     std::string toString() const;
 };
