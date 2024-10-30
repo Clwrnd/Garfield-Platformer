@@ -71,11 +71,11 @@ void Scene_InGame::loadLevel(const std::string &filename)
 
     while (std::getline(levelFile, line))
     {
-        std::getline(std::stringstream(line), typeS, ' ');
+        std::getline(std::stringstream(line), typeS, ';');
         paramVec.clear();
 
         std::stringstream ssline(line);
-        while (std::getline(ssline, param, ' '))
+        while (std::getline(ssline, param, ';'))
         {
             paramVec.push_back(param);
         }

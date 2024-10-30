@@ -33,13 +33,13 @@ const std::vector<std::string> GameEngine::readConfigFile(const std::string &pat
 
     while (std::getline(configFile, line))
     {
-        std::getline(std::stringstream(line), param, ' ');
+        std::getline(std::stringstream(line), param, ';');
         if (param == "Window")
         {
             std::vector<int> winPar;
             line.erase(0, 7);
             std::stringstream ssline(line);
-            while (std::getline(ssline, param, ' '))
+            while (std::getline(ssline, param, ';'))
             {
                 winPar.push_back(std::stoi(param));
             }
@@ -81,11 +81,11 @@ void GameEngine::loadAssets(const std::string &path)
 
     while (std::getline(assetsFile, line))
     {
-        std::getline(std::stringstream(line), typeS, ' ');
+        std::getline(std::stringstream(line), typeS, ';');
         paramVec.clear();
 
         std::stringstream ssline(line);
-        while (std::getline(ssline, param, ' '))
+        while (std::getline(ssline, param, ';'))
         {
             paramVec.push_back(param);
         }
