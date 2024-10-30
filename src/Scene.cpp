@@ -2,6 +2,8 @@
 
 #include "GameEngine.h"
 
+#include <fstream>
+
 Scene::Scene() {}
 
 Scene::Scene(GameEngine *g)
@@ -42,7 +44,7 @@ void Scene::drawLine(const Vec2 &p1, const Vec2 &p2)
 {
     sf::RectangleShape rect;
     rect.setFillColor(sf::Color::White);
-    rect.setPosition(sf::Vector2f(p1.x,p1.y));
-    rect.setSize(sf::Vector2f(p2.x,p2.y));
-    game_engine->getWindow().draw(rect); 
+    rect.setPosition(sf::Vector2f(p1.x, p1.y));
+    rect.setSize(sf::Vector2f(p2.x, p2.y));
+    game_engine->getWindow().draw(rect);
 }

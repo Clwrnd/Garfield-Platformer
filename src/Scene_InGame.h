@@ -2,6 +2,9 @@
 #include "Scene.h"
 #include <SFML/Audio.hpp>
 
+#include <iostream>
+#include <fstream>
+
 class Scene_InGame : public Scene
 {
     struct PlayerConfig
@@ -12,12 +15,14 @@ class Scene_InGame : public Scene
 
 protected:
     std::shared_ptr<Entity> player;
+    std::ofstream replayFile;
     std::string levelPath;
     PlayerConfig plConfig;
     bool drawTextures = true;
     bool drawGrid = false;
     bool drawBoundingBox = false;
     bool paused = false;
+    bool isAreplay = false;
     const Vec2 gridSize = Vec2{64, 64};
     sf::Text griTtext;
     sf::Text timeString;
@@ -43,13 +48,15 @@ protected:
     void QtAnimationSetUp(std::shared_ptr<Entity> e);
     void initTimerCcount();
     void updateTimer();
+    void createFileReplay();
     bool inTheAir();
+    void doAction(const Action &action);
     Vec2 gridToPixel(const Vec2 &gPos, std::shared_ptr<Entity> e);
 
     void onEnd();
 
 public:
-    Scene_InGame(const std::string &levelPathVar, GameEngine *game_engine = nullptr);
+    Scene_InGame(const std::string &levelPathVar, GameEngine *game_engine = nullptr, bool isReplay = false);
 
     void sRender();
 };

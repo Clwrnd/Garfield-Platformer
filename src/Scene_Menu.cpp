@@ -130,6 +130,9 @@ void Scene_Menu::onEnd()
     {
         game_engine->quit();
     }
+    if (selectedMenuIndex == 2)
+    {
+        }
     else
     {
         sf::Sound s(game_engine->getAssets().getSoundBuffer("coolSel"));

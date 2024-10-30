@@ -10,8 +10,8 @@
 #include "Physics.h"
 #include "GameEngine.h"
 
-Scene_InGame::Scene_InGame(const std::string &levelPathVar, GameEngine *gameEngine)
-    : Scene(gameEngine), levelPath(levelPathVar)
+Scene_InGame::Scene_InGame(const std::string &levelPathVar, GameEngine *gameEngine, bool isRpl)
+    : Scene(gameEngine), levelPath(levelPathVar), isAreplay(isRpl)
 {
     init();
 }
@@ -28,6 +28,7 @@ void Scene_InGame::init()
     registerAction(sf::Keyboard::Scan::Scancode::Space, "FIRE");
     registerAction(sf::Keyboard::Scan::Scancode::P, "PAUSE");
 
+    createFileReplay();
     griTtext.setFont(game_engine->getAssets().getFont("Arial"));
     griTtext.setCharacterSize(10);
 
@@ -55,6 +56,26 @@ void Scene_InGame::updateTimer()
 {
     long time = long(float(std::clock() - time_ref) / CLOCKS_PER_SEC * 1000);
     timeString.setString(std::to_string(time / 60000) + ":" + std::to_string((time / 1000) % 60) + ":" + std::to_string(time % 1000));
+}
+
+void Scene_InGame::createFileReplay()
+{
+    isAreplay = true;
+    if (isAreplay)
+    {
+        for (size_t i = 0; i < 1000; i++)
+        {
+            std::ifstream file;
+            file.open("../../replays/replay" + std::to_string(i) + ".txt");
+            std::cout << file.is_open();
+            if (!file)
+            {
+                replayFile.open("../../replays/replay" + std::to_string(i) + ".txt");
+                break;
+            }
+        }
+    }
+    replayFile << "";
 }
 
 void Scene_InGame::loadLevel(const std::string &filename)
@@ -180,6 +201,7 @@ void Scene_InGame::sDoAction(const Action &action)
         }
         else if (action.getName() == "QUIT")
         {
+            replayFile.close();
             sf::View view = game_engine->getWindow().getView();
             view.setCenter(game_engine->getWindow().getSize().x / 2.0f, game_engine->getWindow().getSize().y / 2.0f);
             game_engine->getWindow().setView(view);
@@ -565,6 +587,12 @@ bool Scene_InGame::inTheAir()
     return toReturn;
 }
 
+void Scene_InGame::doAction(const Action &action)
+{
+    replayFile << current_frame << ";" << action.getType() << ";" << action.getName() << std::endl;
+    sDoAction(action);
+}
+
 void Scene_InGame::onEnd()
 {
 }
@@ -582,6 +610,7 @@ void Scene_InGame::update()
         sLifeSpan();
         updateTimer();
         sRender();
+        current_frame++;
     }
     else
     {

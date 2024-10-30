@@ -13,7 +13,7 @@ protected:
     GameEngine *game_engine = nullptr;
     EntityManager entities;
     ActionMap actionMap;
-    size_t current_frame;
+    size_t current_frame = 0;
     bool paused = false;
     bool hasEnded = false;
 

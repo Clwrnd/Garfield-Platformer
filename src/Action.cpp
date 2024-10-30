@@ -7,6 +7,11 @@ Action::Action(const std::string &nameVar, const std::string &typeVar)
 {
 }
 
+Action::Action(const std::string &nameVar, const std::string &typeVar, unsigned long f)
+    : name(nameVar), type(typeVar), frame(f)
+{
+}
+
 const std::string &Action::getName() const
 {
     return name;

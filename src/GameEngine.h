@@ -12,6 +12,7 @@ protected:
     sf::RenderWindow window;
     SceneMap scenes;
     Assets assets;
+    std::vector<Action> replayActions;
 
     bool running = true;
 
@@ -32,4 +33,5 @@ public:
     const std::vector<std::string> readConfigFile(const std::string &path);
     void loadAssets(const std::string &path);
     bool isRunning();
+    void loadReplay(std::string &replayFilePath);
 };

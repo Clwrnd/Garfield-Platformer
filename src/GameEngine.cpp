@@ -188,6 +188,26 @@ void GameEngine::sUserInput()
     }
 }
 
+void GameEngine::loadReplay(std::string &replayFilePath)
+{
+    /*std::ifstream replayFile;
+    replayFile.open(replayFilePath);
+
+    std::string line;
+    std::string param;
+
+    unsigned long f;
+    std::string type, name;
+
+    while (std::getline(replayFile, line))
+    {
+        std::stringstream ssline(line);
+        ssline >> f >> type >> name;
+        replayActions.emplace_back(f, type, name);
+    }
+    replayFile.close();*/
+}
+
 void GameEngine::run()
 {
     while (isRunning())
