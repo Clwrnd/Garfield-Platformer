@@ -193,6 +193,8 @@ void GameEngine::sUserInput()
 
 void GameEngine::loadReplay(const std::string &replayFilePath)
 {
+    replayActions.clear();
+
     std::ifstream replayFile;
     replayFile.open(replayFilePath);
 
@@ -201,6 +203,10 @@ void GameEngine::loadReplay(const std::string &replayFilePath)
 
     unsigned long f;
     std::string type, name;
+    std::string levelFile;
+
+    std::getline(replayFile, line);
+    levelFile = line;
 
     while (std::getline(replayFile, line))
     {
@@ -214,19 +220,16 @@ void GameEngine::loadReplay(const std::string &replayFilePath)
     }
     replayFile.close();
 
-    changeScene("gameplay", std::make_shared<Scene_InGame>("../../levelFiles/level_1.txt", this, true));
+    changeScene("gameplay", std::make_shared<Scene_InGame>(levelFile, this, true));
     playReplay();
 }
 
 void GameEngine::playReplay()
 {
-
     if (getCurrent_Scene()->isAReplay())
     {
-        std::cout << replayActions.front().getFrame();
-        if (replayActions.front().getFrame() == getCurrent_Scene()->getCurrentFrame())
+        while (replayActions.front().getFrame() == getCurrent_Scene()->getCurrentFrame())
         {
-            std::cout << "ok";
             getCurrent_Scene()->doAction(replayActions.front());
             replayActions.erase(replayActions.begin());
         }

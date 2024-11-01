@@ -1,0 +1,12 @@
+Player;0;10;40;50;5;10.5;30;0.4;bullet;10;60;1
+Tile;Floor;0;1;0
+Tile;Floor;1;1;0
+Tile;Floor;2;1;0
+Tile;Floor;3;1;0
+Tile;Floor;4;1;0
+Tile;Floor;5;1;0
+Tile;Floor;6;1;0
+Tile;Floor;7;1;0
+Tile;Floor;8;1;0
+Tile;Floor;9;1;0
+

@@ -73,7 +73,7 @@ void Scene_InGame::createFileReplay()
             }
         }
     }
-    replayFile << "";
+    replayFile << levelPath << std::endl;
 }
 
 void Scene_InGame::loadLevel(const std::string &filename)

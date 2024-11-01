@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <filesystem>
 
 Scene_Menu::Scene_Menu(std::vector<std::string> levPaths, GameEngine *gameEngine)
     : Scene(gameEngine), levelPaths(levPaths)
@@ -18,6 +19,8 @@ void Scene_Menu::init()
     registerAction(sf::Keyboard::Scan::Scancode::W, "UP");
     registerAction(sf::Keyboard::Scan::Scancode::S, "DOWN");
     registerAction(sf::Keyboard::Scan::Scancode::Enter, "ENTER");
+    registerAction(sf::Keyboard::Scan::Scancode::D, "DREPLAY");
+    registerAction(sf::Keyboard::Scan::Scancode::A, "AREPLAY");
 
     initMenuObject();
 }
@@ -76,8 +79,11 @@ void Scene_Menu::sRender()
     {
         game_engine->getWindow().draw(text);
     }
+
+    if (selectedMenuIndex != 3)
+        game_engine->getWindow().draw(anGar->getComponent<CAnimation>().animation.getSprite());
+
     game_engine->getWindow().draw(staticGar->getComponent<CAnimation>().animation.getSprite());
-    game_engine->getWindow().draw(anGar->getComponent<CAnimation>().animation.getSprite());
 
     game_engine->getWindow().display();
 }
@@ -97,10 +103,28 @@ void Scene_Menu::sDoAction(const Action &action)
             s.play();
             while (s.getStatus() == sf::Sound::Status::Playing)
                 ;
+
+            if (selectedMenuIndex == 3)
+            {
+                loadAllReplayFiles();
+                isChoosingReplay = true;
+            }
+            else
+            {
+                isChoosingReplay = false;
+            }
         }
         else if (action.getName() == "ENTER")
         {
             onEnd();
+        }
+        else if (action.getName() == "DREPLAY" && isChoosingReplay)
+        {
+            moveSelectedReplay("DREPLAY");
+        }
+        else if (action.getName() == "AREPLAY" && isChoosingReplay)
+        {
+            moveSelectedReplay("AREPLAY");
         }
     }
 }
@@ -113,12 +137,36 @@ void Scene_Menu::sAnimation()
     anGar->getComponent<CAnimation>().animation.getSprite().setPosition(anGar->getComponent<CTransform>().pos.x, anGar->getComponent<CTransform>().pos.y);
 }
 
+void Scene_Menu::moveSelectedReplay(const std::string &direction)
+{
+    int t = (direction == "AREPLAY") ? -1 : 1;
+    if (selectedReplayIndex == 0 && t == -1)
+    {
+        selectedReplayIndex = replayPaths.size() - 1;
+    }
+    else
+    {
+        selectedReplayIndex = (selectedReplayIndex + t) % replayPaths.size();
+    }
+
+    menuTexts.at(3).setString("-REPLAY -> No." + std::to_string(selectedReplayIndex));
+}
+
 void Scene_Menu::moveSelectedItems(const std::string &direction)
 {
-    size_t t = (direction == "UP") ? -1 : 1;
+    int t = (direction == "UP") ? -1 : 1;
 
     menuTexts.at(selectedMenuIndex).setFillColor(sf::Color::Black);
-    selectedMenuIndex = (selectedMenuIndex + t) % 4;
+
+    if (selectedMenuIndex == 0 && t == -1)
+    {
+        selectedMenuIndex = 4;
+    }
+    else
+    {
+        selectedMenuIndex = (selectedMenuIndex + t) % 5;
+    }
+
     menuTexts.at(selectedMenuIndex).setFillColor(sf::Color::White);
 
     anGar->getComponent<CTransform>().pos = Vec2{menuTexts.at(selectedMenuIndex).getGlobalBounds().getPosition().x + menuTexts.at(selectedMenuIndex).getGlobalBounds().width + 50, menuTexts.at(selectedMenuIndex).getGlobalBounds().getPosition().y + menuTexts.at(selectedMenuIndex).getGlobalBounds().height / 2};
@@ -126,13 +174,14 @@ void Scene_Menu::moveSelectedItems(const std::string &direction)
 
 void Scene_Menu::onEnd()
 {
-    if (selectedMenuIndex == 3)
+    if (selectedMenuIndex == 4)
     {
         game_engine->quit();
     }
-    if (selectedMenuIndex == 2)
+    else if (selectedMenuIndex == 3)
     {
-        game_engine->loadReplay("../../replays/replay0.txt");
+        if (!replayPaths.empty())
+            game_engine->loadReplay(replayPaths.at(selectedReplayIndex));
     }
     else
     {
@@ -141,6 +190,18 @@ void Scene_Menu::onEnd()
         while (s.getStatus() == sf::Sound::Status::Playing)
             ;
         game_engine->changeScene("gameplay", std::make_shared<Scene_InGame>(levelPaths.at(selectedMenuIndex), game_engine));
+    }
+}
+
+void Scene_Menu::loadAllReplayFiles()
+{
+    replayPaths.clear();
+
+    std::string path = "../../replays";
+
+    for (const auto &entry : std::filesystem::directory_iterator(path))
+    {
+        replayPaths.emplace_back(entry.path().string());
     }
 }
 
