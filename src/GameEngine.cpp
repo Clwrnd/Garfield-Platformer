@@ -185,8 +185,10 @@ void GameEngine::sUserInput()
             }
 
             const std::string actionType = (event.type == sf::Event::KeyPressed) ? "START" : "END";
+            const std::string actionName = getCurrent_Scene()->getActionMap().at(event.key.scancode);
 
-            getCurrent_Scene()->doAction(Action(getCurrent_Scene()->getActionMap().at(event.key.scancode), actionType));
+            if (actionName == "QUIT" || actionName == "PAUSE" || !getCurrent_Scene()->isAReplay())
+                getCurrent_Scene()->doAction(Action(actionName, actionType));
         }
     }
 }
