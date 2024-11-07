@@ -54,7 +54,7 @@ void Scene_InGame::initTimerCcount()
 
 void Scene_InGame::updateTimer()
 {
-    long time = long(float(std::clock() - time_ref) / CLOCKS_PER_SEC * 1000);
+    long time = long(float(std::clock() - time_ref - time_paused) / CLOCKS_PER_SEC * 1000);
     timeString.setString(std::to_string(time / 60000) + ":" + std::to_string((time / 1000) % 60) + ":" + std::to_string(time % 1000));
 }
 
@@ -211,6 +211,14 @@ void Scene_InGame::sDoAction(const Action &action)
         }
         else if (action.getName() == "PAUSE")
         {
+            if (paused)
+            {
+                time_paused += (std::clock() - time_paused_ref);
+            }
+            else
+            {
+                time_paused_ref = std::clock();
+            }
             paused = !paused;
         }
     }

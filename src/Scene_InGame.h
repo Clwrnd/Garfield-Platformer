@@ -28,6 +28,8 @@ protected:
     sf::Text coinCout;
     sf::Sound soundEffects;
     std::clock_t time_ref;
+    std::clock_t time_paused_ref;
+    long time_paused = 0;
     unsigned char coin_count = 0;
 
     void init();
