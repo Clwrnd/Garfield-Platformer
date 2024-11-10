@@ -1,3 +1,0 @@
-../../levelFiles/level_2.txt
-0;START;RIGHT
-73;START;QUIT

@@ -251,12 +251,6 @@ void Scene_InGame::sRender()
     view.setCenter(windowCenterX, game_engine->getWindow().getSize().y - view.getCenter().y);
     game_engine->getWindow().setView(view);
 
-    timeString.setPosition(game_engine->getWindow().getView().getCenter().x - game_engine->getWindow().getView().getSize().x / 2 + 5, 5);
-    game_engine->getWindow().draw(timeString);
-
-    coinCout.setPosition(game_engine->getWindow().getView().getCenter().x - game_engine->getWindow().getView().getSize().x / 2 + 5, 30);
-    game_engine->getWindow().draw(coinCout);
-
     if (drawTextures)
     {
         for (auto e : entities.getEntities())
@@ -300,6 +294,12 @@ void Scene_InGame::sRender()
             }
         }
     }
+
+    timeString.setPosition(game_engine->getWindow().getView().getCenter().x - game_engine->getWindow().getView().getSize().x / 2 + 5, 5);
+    game_engine->getWindow().draw(timeString);
+
+    coinCout.setPosition(game_engine->getWindow().getView().getCenter().x - game_engine->getWindow().getView().getSize().x / 2 + 5, 30);
+    game_engine->getWindow().draw(coinCout);
 
     game_engine->getWindow().display();
 }
