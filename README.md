@@ -29,4 +29,4 @@ Here is the link to the online course on Youtube (episode of the assignment):  h
 
 I've made modification and additions to the original version of the assignement requirements but it's mainly inspired from there.
 
-I'm avare that a lot could be add to this game but the initial goal was about learning C++ and not about game design or asset creations and so kinds of thing, so yeah that will be it for this project.
+I'm aware that a lot could be add to this game but the initial goal was about learning C++ and not about game design or asset creations and so kinds of thing, so yeah that will be it for this project.
