@@ -1,9 +1,19 @@
 # Garfield Platformer Game
-### State of the projet : 🔨 In progress
+### State of the projet : ✔️ Completed
 
-Here is a little platformer game I've made myself  about the universe of Garfield. 
+Here is a little platformer game I've made myself  about the universe of Garfield. In order to realise this game I didn't use any Game Engine. I've built a little one with help of different Youtube lecture on game programming in C++.
+In this game, you will incarnate Garfield in a Mario Bros-like universe, and your goal is to reach the pizzeria and to collect the maximum Lasagna on the road, all this with the help of his lasagna gun. This as quickly as possible.
+
+A replay mode is also available to review your best run.
+
+It's possible to create your own level and to modify the game settings (gravity, speed...) using the levels files in the folder of the same name. Assets can be added and modified too.
+
+There are also additional key to pause, quit, hide/show textures...
 
 You can find the detailled specifications of this games in the wiki asssociated with this repository along with other informations : https://github.com/Clwrnd/Platformer-Game/wiki.
+
+The project is built using **CMake**. You can therefore build the project on any platform with CMake and then execute it if you want to test it !
+As this project is using the SFML library, you will probably need to install certain dependencies if you're not on Windows. All information can be found here: https://github.com/SFML/cmake-sfml-project
 
 
 In order to realise this project I've been mainly inspired by an online course on Game Programming in C++. Here are the credits.
