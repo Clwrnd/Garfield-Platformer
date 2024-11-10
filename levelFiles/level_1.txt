@@ -101,6 +101,7 @@ Tile;Floor;7;4;1
 Tile;Floor;5;7;1
 Tile;Floor;6;7;1
 Tile;Tube;14;2;0
+Tile;endPoint;23;2;0
 Player;0;10;40;50;5;10.5;30;0.4;bullet;10;60;1
 
 

@@ -14,6 +14,12 @@ Scene::Scene(GameEngine *g, bool isAr)
     : game_engine(g), isAreplay(isAr)
 {
 }
+Scene::~Scene()
+{
+    sf::View view = game_engine->getWindow().getView();
+    view.setCenter(game_engine->getWindow().getSize().x / 2.0f, game_engine->getWindow().getSize().y / 2.0f);
+    game_engine->getWindow().setView(view);
+}
 const ActionMap &Scene::getActionMap() const
 {
     return actionMap;

@@ -230,9 +230,10 @@ void GameEngine::playReplay()
 {
     if (getCurrent_Scene()->isAReplay())
     {
-        while (replayActions.front().getFrame() == getCurrent_Scene()->getCurrentFrame())
+        while (replayActions.front().getFrame() == getCurrent_Scene()->getCurrentFrame() && !replayActions.empty())
         {
             getCurrent_Scene()->doAction(replayActions.front());
+
             replayActions.erase(replayActions.begin());
         }
     }

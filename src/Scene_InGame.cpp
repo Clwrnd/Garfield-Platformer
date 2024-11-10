@@ -199,10 +199,8 @@ void Scene_InGame::sDoAction(const Action &action)
         }
         else if (action.getName() == "QUIT")
         {
-            replayFile.close();
-            sf::View view = game_engine->getWindow().getView();
-            view.setCenter(game_engine->getWindow().getSize().x / 2.0f, game_engine->getWindow().getSize().y / 2.0f);
-            game_engine->getWindow().setView(view);
+            if (!isAReplay())
+                replayFile.close();
             game_engine->changeScene("menu", true);
         }
         else if (action.getName() == "FIRE")
@@ -445,6 +443,12 @@ void Scene_InGame::sCollision()
                     soundEffects.play();
                     QtAnimationSetUp(e);
                 }
+            }
+            if (e->getComponent<CAnimation>().animation.getName() == "endPoint")
+            {
+                if (!isAReplay())
+                    replayFile.close();
+                game_engine->changeScene("menu", true);
             }
         }
 
