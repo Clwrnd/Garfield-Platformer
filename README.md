@@ -1,8 +1,10 @@
 # Garfield Platformer Game
 ### State of the projet : ✔️ Completed
 
-Here is a little platformer game I've made myself  about the universe of Garfield. In order to realise this game I didn't use any Game Engine. I've built a little one with help of different Youtube lecture on game programming in C++.
-In this game, you will incarnate Garfield in a Mario Bros-like universe, and your goal is to reach the pizzeria and to collect the maximum Lasagna on the road, all this with the help of his lasagna gun. This as quickly as possible.
+Here is a little platformer game I've made myself  about the universe of Garfield. First and foremost, this is an educational project for me to familiarise myself with C++.
+
+In order to realise this game I didn't use any Game Engine. I've built a little one with help of different Youtube lecture on game programming in C++.
+In this game, you will incarnate Garfield in a Mario Bros-like universe. Your goal is to reach the pizzeria and to collect the maximum Lasagna on the road, all this with the help of his lasagna gun and as quickly as possible.
 
 A replay mode is also available to review your best run.
 
@@ -26,3 +28,5 @@ The reference of the course is **COMP 4300, Memorial University, CANADA**.
 Here is the link to the online course on Youtube (episode of the assignment):  https://www.youtube.com/watch?v=S5CXXWbaDlc&list=PL_xRyXins848nDj2v-TJYahzvs-XW9sVV&index=11.
 
 I've made modification and additions to the original version of the assignement requirements but it's mainly inspired from there.
+
+I'm avare that a lot could be add to this game but the initial goal was about learning C++ and not about game design or asset creations and so kinds of thing, so yeah that will be it for this project.
