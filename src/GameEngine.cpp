@@ -49,11 +49,11 @@ const std::vector<std::string> GameEngine::readConfigFile(const std::string &pat
 
             if (winPar.at(3))
             {
-                window.create(sf::VideoMode({(unsigned int)winPar.at(0), (unsigned int)winPar.at(1)}), "Assignement 3", sf::Style::Fullscreen);
+                window.create(sf::VideoMode({(unsigned int)winPar.at(0), (unsigned int)winPar.at(1)}), "Garfield Platformer", sf::Style::Fullscreen);
             }
             else
             {
-                window.create(sf::VideoMode({(unsigned int)winPar.at(0), (unsigned int)winPar.at(1)}), "Assignement 3");
+                window.create(sf::VideoMode({(unsigned int)winPar.at(0), (unsigned int)winPar.at(1)}), "Garfield Platformer");
             }
             window.setFramerateLimit(winPar.at(2));
         }
